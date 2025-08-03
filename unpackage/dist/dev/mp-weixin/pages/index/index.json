@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "运齐发储运通",
+  "navigationBarBackgroundColor": "#4E82FF",
+  "navigationBarTextStyle": "white",
+  "transparentTitle": "always",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-status-bar": "/uni_modules/uview-ui/components/u-status-bar/u-status-bar",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
+  }
+}

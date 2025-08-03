@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/inventory/inventory",
+    "pages/account/account"
+  ],
+  "subPackages": [
+    {
+      "root": "pages_sub",
+      "pages": [
+        "login/login",
+        "distribution/distribution",
+        "inventory/details",
+        "inventory/batchInfo"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#3487FC",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "/static/home_active.png",
+        "iconPath": "/static/home_inactive.png",
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "/static/inventory_active.png",
+        "iconPath": "/static/inventory_inactive.png",
+        "pagePath": "pages/inventory/inventory",
+        "text": "库存"
+      },
+      {
+        "selectedIconPath": "/static/account_active.png",
+        "iconPath": "/static/account_inactive.png",
+        "pagePath": "pages/account/account",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

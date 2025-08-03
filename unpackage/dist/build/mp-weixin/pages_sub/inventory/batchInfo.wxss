@@ -1,0 +1,1 @@
+.page{background:rgba(78,130,255,.1);padding:24rpx}.item{padding:24rpx;border-left:2px solid #4e82ff;background:#fff;margin-bottom:16rpx;display:grid;grid-template-columns:1.2fr 2fr 1.2fr 2fr;gap:4rpx}.item .content{color:rgba(0,0,0,.2)}

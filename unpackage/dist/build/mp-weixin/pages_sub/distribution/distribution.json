@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "区域分布",
+  "navigationBarBackgroundColor": "#4E82FF",
+  "navigationBarTextStyle": "white",
+  "disableScroll": true,
+  "transparentTitle": "always",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "l-echart": "/uni_modules/lime-echart/components/l-echart/l-echart"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "车辆详情",
+  "usingComponents": {
+    "u--form": "/uni_modules/uview-ui/components/u--form/u--form",
+    "u-form-item": "/uni_modules/uview-ui/components/u-form-item/u-form-item",
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-badge": "/uni_modules/uview-ui/components/u-badge/u-badge",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-tag": "/uni_modules/uview-ui/components/u-tag/u-tag",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
+    "u-safe-bottom": "/uni_modules/uview-ui/components/u-safe-bottom/u-safe-bottom",
+    "file-uplaod": "/pages_sub/components/upload",
+    "goods-popup": "/pages_sub/vehicle/details/GoodsPopup"
+  }
+}

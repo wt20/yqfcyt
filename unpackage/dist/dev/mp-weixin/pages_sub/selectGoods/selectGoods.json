@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "选择商品",
+  "usingComponents": {
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-list": "/uni_modules/uview-ui/components/u-list/u-list",
+    "u-list-item": "/uni_modules/uview-ui/components/u-list-item/u-list-item",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-loadmore": "/uni_modules/uview-ui/components/u-loadmore/u-loadmore",
+    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
+    "filter": "/pages_sub/myGoods/Filter"
+  }
+}

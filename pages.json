@@ -1,0 +1,209 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "运齐发储运通",
+				"navigationBarBackgroundColor": "#4E82FF",
+				"navigationBarTextStyle": "white",
+				"transparentTitle": "always",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/account/account",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white",
+				"disableScroll": true,
+				"transparentTitle": "always",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/deliver_goods/deliver_goods",
+			"style": {
+				"navigationBarTitleText": "我要发货"
+			}
+		},
+		{
+			"path": "pages/inventory/inventory",
+			"style": {
+				"navigationBarTitleText": "库存信息",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"subPackages": [{
+		"root": "pages_sub",
+		"pages": [{
+				"path": "login/login",
+				"style": {
+					"navigationBarTitleText": "登录",
+					"enablePullDownRefresh": false,
+					"disableScroll": true,
+					"navigationStyle": "custom",
+					"navigationBarTextStyle": "white"
+				}
+			},
+			{
+				"path": "inventory/details",
+				"style": {
+					"navigationBarTitleText": "库存详情",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "outStorage/outStorage",
+				"style": {
+					"navigationBarTitleText": "出库管理",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "outStorage/details/details",
+				"style": {
+					"navigationBarTitleText": "出库详情",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "resetPass/resetPass",
+				"style": {
+					"navigationBarTitleText": "修改密码"
+				}
+			},
+			{
+				"path": "inStorage/inStorage",
+				"style": {
+					"navigationBarTitleText": "入库管理",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "inStorage/details/details",
+				"style": {
+					"navigationBarTitleText": "入库详情",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "myGoods/myGoods",
+				"style": {
+					"navigationBarTitleText": "我的货物"
+				}
+			},
+			{
+				"path": "myGoods/details/details",
+				"style": {
+					"navigationBarTitleText": "货物详情",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "appointment/appointment",
+				"style": {
+					"navigationBarTitleText": "预约列表"
+				}
+			},
+			{
+				"path": "appointment/addEdit/addEdit",
+				"style": {
+					"navigationBarTitleText": "仓储预约"
+				}
+			},
+			{
+				"path" : "selectGoods/selectGoods",
+				"style" : 
+				{
+					"navigationBarTitleText" : "选择商品"
+				}
+			},
+			{
+				"path" : "selectGoods/editGoods/editGoods",
+				"style" : 
+				{
+					"navigationBarTitleText" : "编辑商品"
+				}
+			},
+			{
+				"path" : "inventoryCheck/inventoryCheck",
+				"style" : 
+				{
+					"navigationBarTitleText" : "盘库记录"
+				}
+			},
+			{
+				"path" : "inventoryCheck/addEdit/addEdit",
+				"style" : 
+				{
+					"navigationBarTitleText" : "库存盘点"
+				}
+			},
+			{
+				"path" : "inventoryCheck/selectGoods/selectGoods",
+				"style" : 
+				{
+					"navigationBarTitleText" : "选择货品"
+				}
+			},
+			{
+				"path" : "inventoryCheck/selectGoods/editGoods/editGoods",
+				"style" : 
+				{
+					"navigationBarTitleText" : "编辑商品"
+				}
+			},
+			{
+				"path" : "vehicle/vehicle",
+				"style" : 
+				{
+					"navigationBarTitleText" : "车辆管理"
+				}
+			},
+			{
+				"path" : "vehicle/details/details",
+				"style" : 
+				{
+					"navigationBarTitleText" : "车辆详情"
+				}
+			}
+		]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#a9b7b7",
+		"selectedColor": "#3487FC",
+		"borderStyle": "white",
+		"list": [{
+			"selectedIconPath": "/static/home_active.png",
+			"iconPath": "/static/home_inactive.png",
+			"pagePath": "pages/index/index",
+			"text": "首页"
+		}, {
+			"selectedIconPath": "/static/deliver_goods_active.png",
+			"iconPath": "/static/deliver_goods_inactive.png",
+			"pagePath": "pages/deliver_goods/deliver_goods",
+			"text": "我要发货"
+		}, {
+			"selectedIconPath": "/static/inventory_active.png",
+			"iconPath": "/static/inventory_inactive.png",
+			"pagePath": "pages/inventory/inventory",
+			"text": "库存查询"
+		}, {
+			"selectedIconPath": "/static/account_active.png",
+			"iconPath": "/static/account_inactive.png",
+			"pagePath": "pages/account/account",
+			"text": "我的"
+		}]
+	}
+}

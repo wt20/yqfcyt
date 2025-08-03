@@ -1,0 +1,146 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.home {
+  font-family: AlimamaShuHeiTi, AlimamaShuHeiTi;
+}
+.home .top-bg {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.home .title {
+  font-weight: 400;
+  font-size: 48rpx;
+  color: #FFFFFF;
+  letter-spacing: 3px;
+  margin-left: 52rpx;
+  margin-top: 40rpx;
+}
+.home .slogan {
+  width: 238rpx;
+  height: 46rpx;
+  background: #FFFFFF;
+  font-weight: 500;
+  font-size: 24rpx;
+  color: #48A6FD;
+  letter-spacing: 2px;
+  border-radius: 46rpx;
+  margin-left: 52rpx;
+  margin-top: 40rpx;
+}
+.home .content {
+  padding: 0rpx 32rpx;
+  margin-top: 80rpx;
+}
+.home .content .transport {
+  background: #FFFFFF;
+  box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(130, 124, 124, 0.15);
+  border-radius: 22rpx 22rpx 0rpx 0rpx;
+  padding: 32rpx 26rpx;
+}
+.home .content .transport .title-box .dot {
+  width: 38rpx;
+  height: 24rpx;
+}
+.home .content .transport .title-box .title-text {
+  font-size: 32rpx;
+  color: #1A1A1A;
+  margin-left: 12rpx;
+}
+.home .content .transport .menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 42rpx;
+  margin-top: 28rpx;
+}
+.home .content .transport .menu .menu-item {
+  width: 296rpx;
+  height: 160rpx;
+  background: #EDF7FF;
+  position: relative;
+}
+.home .content .transport .menu .menu-item .menu-title-box {
+  margin-top: 48rpx;
+  margin-left: 24rpx;
+  font-size: 28rpx;
+  color: #333333;
+  gap: 8rpx;
+}
+.home .content .transport .menu .menu-item .menu-img {
+  width: 90rpx;
+  height: 64rpx;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-size: 100%;
+}
+.home .content .transport .menu .menu-item .menu-img-1 {
+  background-image: url("https://yqfcyt.com/pro-api/profile/wx/static/car1.png");
+}
+.home .content .transport .menu .menu-item .menu-img-2 {
+  background-image: url("https://yqfcyt.com/pro-api/profile/wx/static/car2.png");
+}
+.home .content .transport .menu-small {
+  margin-top: 48rpx;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 58rpx;
+}
+.home .content .transport .menu-small .menu-small-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home .content .transport .menu-small .menu-small-item .menu-small-img {
+  width: 90rpx;
+  height: 92rpx;
+  border-radius: 24rpx;
+}
+.home .content .transport .menu-small .menu-small-item .menu-small-text {
+  font-size: 28rpx;
+  color: #333333;
+  margin-top: 16rpx;
+}
+.home .content .transport .menu-small .menu-small-item:active .menu-small-img {
+  box-shadow: 0px 0px 12px #ccc;
+}
+.home .content .warehouse {
+  margin-top: 30rpx;
+  border-radius: 0rpx;
+}
+.home .content .warehouse .menu-small {
+  gap: 30rpx 58rpx;
+}
+.home .content .bottom-box {
+  width: 100%;
+  height: 266rpx;
+  background-size: 100%;
+  margin-top: 30rpx;
+  margin-bottom: 96rpx;
+}
+

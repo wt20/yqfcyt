@@ -1,0 +1,73 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/account/account",
+    "pages/deliver_goods/deliver_goods",
+    "pages/inventory/inventory"
+  ],
+  "subPackages": [
+    {
+      "root": "pages_sub",
+      "pages": [
+        "login/login",
+        "inventory/details",
+        "outStorage/outStorage",
+        "outStorage/details/details",
+        "resetPass/resetPass",
+        "inStorage/inStorage",
+        "inStorage/details/details",
+        "myGoods/myGoods",
+        "myGoods/details/details",
+        "appointment/appointment",
+        "appointment/addEdit/addEdit",
+        "selectGoods/selectGoods",
+        "selectGoods/editGoods/editGoods",
+        "inventoryCheck/inventoryCheck",
+        "inventoryCheck/addEdit/addEdit",
+        "inventoryCheck/selectGoods/selectGoods",
+        "inventoryCheck/selectGoods/editGoods/editGoods",
+        "vehicle/vehicle",
+        "vehicle/details/details"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#3487FC",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "/static/home_active.png",
+        "iconPath": "/static/home_inactive.png",
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "/static/deliver_goods_active.png",
+        "iconPath": "/static/deliver_goods_inactive.png",
+        "pagePath": "pages/deliver_goods/deliver_goods",
+        "text": "我要发货"
+      },
+      {
+        "selectedIconPath": "/static/inventory_active.png",
+        "iconPath": "/static/inventory_inactive.png",
+        "pagePath": "pages/inventory/inventory",
+        "text": "库存查询"
+      },
+      {
+        "selectedIconPath": "/static/account_active.png",
+        "iconPath": "/static/account_inactive.png",
+        "pagePath": "pages/account/account",
+        "text": "我的"
+      }
+    ]
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {}
+}

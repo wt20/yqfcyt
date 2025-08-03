@@ -1,0 +1,21 @@
+{
+  "navigationBarTitleText": "出库详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u--form": "/uni_modules/uview-ui/components/u--form/u--form",
+    "u-form-item": "/uni_modules/uview-ui/components/u-form-item/u-form-item",
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-badge": "/uni_modules/uview-ui/components/u-badge/u-badge",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-radio-group": "/uni_modules/uview-ui/components/u-radio-group/u-radio-group",
+    "u-radio": "/uni_modules/uview-ui/components/u-radio/u-radio",
+    "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea",
+    "u-divider": "/uni_modules/uview-ui/components/u-divider/u-divider",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
+    "u-datetime-picker": "/uni_modules/uview-ui/components/u-datetime-picker/u-datetime-picker",
+    "u-safe-bottom": "/uni_modules/uview-ui/components/u-safe-bottom/u-safe-bottom",
+    "goods-details-popup": "/pages_sub/components/GoodsDetailsPopup",
+    "file-uplaod": "/pages_sub/components/upload",
+    "select-user": "/pages_sub/components/SelectUser"
+  }
+}
