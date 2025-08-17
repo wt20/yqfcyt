@@ -2,8 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/account/account",
-    "pages/deliver_goods/deliver_goods",
-    "pages/inventory/inventory"
+    "pages/deliver_goods/details",
+    "pages/inventory/inventory",
+    "pages/deliver_goods/list/index"
   ],
   "subPackages": [
     {
@@ -51,7 +52,7 @@
       {
         "selectedIconPath": "/static/deliver_goods_active.png",
         "iconPath": "/static/deliver_goods_inactive.png",
-        "pagePath": "pages/deliver_goods/deliver_goods",
+        "pagePath": "pages/deliver_goods/list/index",
         "text": "我要发货"
       },
       {

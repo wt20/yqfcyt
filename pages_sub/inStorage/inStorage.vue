@@ -1,10 +1,15 @@
 <!-- 入库管理页面 -->
 <template>
 	<view class="page">
-		<view class="search-box">
-			<u--input v-if="searchField" :placeholder="placeholder" prefixIcon="search"
-				prefixIconStyle="font-size: 50rpx;color: #909399" v-model="otherQuery[searchField]"
-				@input="$u.debounce(searchList, 500)"></u--input>
+		<view class="search-box flexb">
+			<view class="input-box">
+				<u--input v-if="searchField" :placeholder="placeholder" prefixIcon="search"
+					prefixIconStyle="font-size: 50rpx;color: #909399" v-model="otherQuery[searchField]"
+					@input="$u.debounce(searchList, 500)"></u--input>
+			</view>
+			<view class="more-box" @click="showPopup">
+				<u-icon name="more-dot-fill" color="#2979ff" size="22"></u-icon>
+			</view>
 		</view>
 		<slot name="top"></slot>
 		<view v-if="list.length || status === 'loading'" style="margin-top: 24rpx;">
@@ -48,6 +53,7 @@
 			</u-list>
 		</view>
 		<u-empty v-else mode="list" marginTop="40%" />
+		<Filter ref="filterRef" @submit="filterChange" />
 	</view>
 </template>
 
@@ -55,6 +61,7 @@
 	import {
 		getDictLabel
 	} from '@/utils/dict.js';
+	import Filter from './Filter.vue'
 
 	export default {
 		data() {
@@ -65,16 +72,19 @@
 					size: 30,
 				},
 				otherQuery: {
-					auditStatus: [3,4]
+					auditStatus: [3, 4]
 				},
 				status: 'loading',
 				height: 'calc(100vh - 126rpx)',
 				searchField: 'item',
-				placeholder: '请输入货品名称/产地/型号/规格',
+				placeholder: '请输入货品信息',
 				apiUrl: '/wms/receiptOrder/list',
 
 				statusColors: ['info', 'error', 'warning', 'warning', 'success'],
 			};
+		},
+		components: {
+			Filter
 		},
 		created() {
 			if (this.searchField) this.otherQuery[this.searchField] = ''
@@ -124,6 +134,16 @@
 				uni.navigateTo({
 					url: `/pages_sub/inStorage/details/details`
 				});
+			},
+			filterChange(data) {
+				this.otherQuery = {
+					...this.otherQuery,
+					...data
+				}
+				this.searchList()
+			},
+			showPopup() {
+				this.$refs.filterRef.showPopup = true
 			}
 		},
 	}
@@ -136,7 +156,19 @@
 		height: 100vh;
 
 		.search-box {
-			background: #fff;
+			gap: 26rpx;
+			box-sizing: border-box;
+			.input-box {
+				flex: 1;
+				border-radius: 12rpx;
+				background: #fff;
+			}
+			.more-box {
+				width: 30px;
+				background: #fff;
+				padding-left: 12rpx;
+				border-radius: 12rpx;
+			}
 		}
 	}
 

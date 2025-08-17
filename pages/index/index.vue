@@ -171,7 +171,7 @@
 				]
 				const roles = uni.getStorageSync('user_info')?.roles
 				return menus.filter(i => {
-					const roleMenuPowers = roles.reduce((cur, next) => {
+					const roleMenuPowers = roles?.reduce((cur, next) => {
 						cur.push(...this.menuPowers[next])
 						return cur
 					}, [])

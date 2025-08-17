@@ -1,0 +1,17 @@
+{
+  "navigationBarTitleText": "我要发货",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-status-bar": "/uni_modules/uview-ui/components/u-status-bar/u-status-bar",
+    "u--form": "/uni_modules/uview-ui/components/u--form/u--form",
+    "u-form-item": "/uni_modules/uview-ui/components/u-form-item/u-form-item",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-number-box": "/uni_modules/uview-ui/components/u-number-box/u-number-box",
+    "u-tabs": "/uni_modules/uview-ui/components/u-tabs/u-tabs",
+    "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
+    "u-picker": "/uni_modules/uview-ui/components/u-picker/u-picker",
+    "file-uplaod": "/pages/components/upload"
+  }
+}

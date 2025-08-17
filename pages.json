@@ -25,9 +25,10 @@
 			}
 		},
 		{
-			"path": "pages/deliver_goods/deliver_goods",
+			"path": "pages/deliver_goods/details",
 			"style": {
-				"navigationBarTitleText": "我要发货"
+				"navigationBarTitleText": "我要发货",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -35,6 +36,13 @@
 			"style": {
 				"navigationBarTitleText": "库存信息",
 				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/deliver_goods/list/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "发货列表"
 			}
 		}
 	],
@@ -192,7 +200,7 @@
 		}, {
 			"selectedIconPath": "/static/deliver_goods_active.png",
 			"iconPath": "/static/deliver_goods_inactive.png",
-			"pagePath": "pages/deliver_goods/deliver_goods",
+			"pagePath": "pages/deliver_goods/list/index",
 			"text": "我要发货"
 		}, {
 			"selectedIconPath": "/static/inventory_active.png",

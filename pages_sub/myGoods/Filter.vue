@@ -2,7 +2,7 @@
 	<u-popup :show="showPopup" mode="right" closeOnClickOverlay @close="showPopup = false">
 		<view style="width: 82vw;padding: 8px;">
 			<u--form labelPosition="left" :model="formModel" ref="formRef" labelWidth="100">
-				<u-form-item v-if="true || showFilterCustomer" label="货权单位" prop="customerName" borderBottom
+				<u-form-item v-if="showFilterCustomer" label="货权单位" prop="customerName" borderBottom
 					@click="showCustomers = true">
 					<u--input v-model="formModel.customerName" disabled placeholder="请选择货权单位" border="none"></u--input>
 				</u-form-item>

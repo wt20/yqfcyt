@@ -1,0 +1,1 @@
+<u-upload vue-id="0046f035-1" disabled="{{disabled}}" accept="media" capture="camera" fileList="{{fileList}}" multiple="{{true}}" maxCount="{{15}}" data-event-opts="{{[['^afterRead',[['afterRead']]],['^delete',[['deletePic']]]]}}" bind:afterRead="__e" bind:delete="__e" bind:__l="__l"></u-upload>

@@ -37,6 +37,7 @@
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
 				<u-form-item label="车辆进出状态" prop="carArriveStatus" borderBottom>
+
 					<view style="display: inline-flex;">
 						<view v-if="formModel.carArriveStatus == 0">
 							{{carArriveStatusMapping[String(formModel.carArriveStatus)]}}
@@ -46,30 +47,27 @@
 					</view>
 				</u-form-item>
 
-				<!-- 	<u-form-item labelWidth="120" label="进出标识" prop="inOrOut" borderBottom>
+				<u-form-item labelWidth="120" label="进出标识" prop="inOrOut" borderBottom>
 					<u-radio-group v-model="formModel.inOrOut" placement="row">
 						<u-radio :customStyle="{marginRight: '50rpx'}" label="进" name="IN"></u-radio>
 						<u-radio label="出" name="OUT"></u-radio>
 					</u-radio-group>
-				</u-form-item> -->
-				<u-form-item v-if="[1, 2].includes(formModel.carArriveStatus)" label="车辆进入时间" prop="carArriveTime"
-					borderBottom>
+				</u-form-item>
+				<u-form-item label="车辆进入时间" prop="carArriveTime" borderBottom>
 					<u--input :value="formModel.carArriveTime || '--'" border="none" disabled></u--input>
 				</u-form-item>
 				<u-form-item label="进入照片" prop="inPhotoList" borderBottom>
 					<FileUplaod @change="(files)=> fileChange(files, 'inPhotoList')"
-						:defaultData="formModel.inPhotoList" :disabled="[1, 2].includes(formModel.carArriveStatus)" />
+						:defaultData="formModel.inPhotoList" :disabled="formModel.inOrOut === 'OUT'" />
 				</u-form-item>
-				<u-form-item v-if="[2].includes(formModel.carArriveStatus)" label="车辆离开时间" prop="carLeaveTime"
-					borderBottom>
+				<u-form-item label="车辆离开时间" prop="carLeaveTime" borderBottom>
 					<u--input :value="formModel.carLeaveTime || '--'" border="none" disabled></u--input>
 				</u-form-item>
-				<u-form-item v-if="[1, 2].includes(formModel.carArriveStatus)" label="离开照片" prop="outPhotoList"
-					borderBottom>
+				<u-form-item label="离开照片" prop="outPhotoList" borderBottom>
 					<FileUplaod @change="(files)=> fileChange(files, 'outPhotoList')"
-						:defaultData="formModel.outPhotoList" :disabled="[2].includes(formModel.carArriveStatus)" />
+						:defaultData="formModel.outPhotoList" :disabled="formModel.inOrOut === 'IN'" />
 				</u-form-item>
-				<view v-if="![2].includes(formModel.carArriveStatus)" class="flexs"
+				<view v-if="!formModel.carArriveTime || !formModel.carLeaveTime" class="flexs"
 					style="gap: 24rpx; margin-top: 60rpx;">
 					<u-button type="primary" @click="submit">提 交</u-button>
 				</view>
@@ -121,7 +119,12 @@
 				this.formModel = JSON.parse(params)
 			}
 		},
-		mounted() {},
+		mounted() {
+			this.formModel = {
+				...this.formModel,
+				inOrOut: this.inOrOut
+			}
+		},
 		computed: {
 			inOrOut() {
 				const {
@@ -129,7 +132,8 @@
 				} = this.formModel
 				if (carArriveStatus == 0) return 'IN'
 				if (carArriveStatus == 1) return 'OUT'
-				return ''
+				if (carArriveStatus == 2) return 'OUT'
+				return 'IN'
 			},
 			getType() {
 				if (this.formModel.type == 'APPOINTMENT') {
@@ -165,8 +169,8 @@
 				const data = {
 					type: type,
 					orderId: orderId,
-					inOrOut: this.inOrOut,
-					photoList: this.inOrOut == 'IN' ? inPhotoList : outPhotoList
+					inOrOut: this.formModel.inOrOut,
+					photoList: this.formModel.inOrOut == 'IN' ? inPhotoList : outPhotoList
 				}
 				await uni.$u.http.post('/wms/wx/car/carInOut', null, {
 					data
