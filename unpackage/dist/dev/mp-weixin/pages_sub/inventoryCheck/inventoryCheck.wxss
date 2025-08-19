@@ -49,4 +49,3 @@
 .list-item {
   grid-template-columns: 120rpx 1fr 120rpx 1fr;
 }
-

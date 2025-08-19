@@ -1,5 +1,4 @@
 {
-  "component": true,
   "usingComponents": {
     "u-popup": "/uni_modules/uview-ui/components/u-popup/u-popup",
     "u--form": "/uni_modules/uview-ui/components/u--form/u--form",
@@ -9,5 +8,6 @@
     "u--text": "/uni_modules/uview-ui/components/u--text/u--text",
     "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
     "u-button": "/uni_modules/uview-ui/components/u-button/u-button"
-  }
+  },
+  "component": true
 }

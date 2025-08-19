@@ -46,7 +46,9 @@ view.data-v-17df7dbd, scroll-view.data-v-17df7dbd, swiper-item.data-v-17df7dbd {
 }
 .u-calendar-month__days.data-v-17df7dbd {
   position: relative;
+
   display: flex;
+
   flex-direction: row;
   flex-wrap: wrap;
 }
@@ -56,7 +58,9 @@ view.data-v-17df7dbd, scroll-view.data-v-17df7dbd, swiper-item.data-v-17df7dbd {
   bottom: 0;
   left: 0;
   right: 0;
+
   display: flex;
+
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -66,15 +70,19 @@ view.data-v-17df7dbd, scroll-view.data-v-17df7dbd, swiper-item.data-v-17df7dbd {
   color: rgba(231, 232, 234, 0.83);
 }
 .u-calendar-month__days__day.data-v-17df7dbd {
+
   display: flex;
+
   flex-direction: row;
   padding: 2px;
-  width: calc(100% / 7);
+  width: 14.2857142857%;
   box-sizing: border-box;
 }
 .u-calendar-month__days__day__select.data-v-17df7dbd {
   flex: 1;
+
   display: flex;
+
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -117,7 +125,9 @@ view.data-v-17df7dbd, scroll-view.data-v-17df7dbd, swiper-item.data-v-17df7dbd {
 }
 .u-calendar-month__days__day__select--selected.data-v-17df7dbd {
   background-color: #3c9cff;
+
   display: flex;
+
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -136,4 +146,3 @@ view.data-v-17df7dbd, scroll-view.data-v-17df7dbd, swiper-item.data-v-17df7dbd {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-

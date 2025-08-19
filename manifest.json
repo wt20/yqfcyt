@@ -67,10 +67,18 @@
             "minified" : true
         },
         "usingComponents" : true,
+		"requiredPrivateInfos": [
+			"getLocation"
+		],
         "optimization" : {
             "subPackages" : true
         },
-        "lazyCodeLoading" : "requiredComponents"
+        "lazyCodeLoading" : "requiredComponents",
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "用于获取当前所在城市信息"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true

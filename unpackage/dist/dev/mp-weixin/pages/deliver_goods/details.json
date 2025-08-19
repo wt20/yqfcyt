@@ -11,6 +11,7 @@
     "u-number-box": "/uni_modules/uview-ui/components/u-number-box/u-number-box",
     "u-tabs": "/uni_modules/uview-ui/components/u-tabs/u-tabs",
     "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
+    "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea",
     "u-picker": "/uni_modules/uview-ui/components/u-picker/u-picker",
     "file-uplaod": "/pages/components/upload"
   }

@@ -69,6 +69,14 @@
       }
     ]
   },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
   "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取当前所在城市信息"
+    }
+  },
   "usingComponents": {}
 }

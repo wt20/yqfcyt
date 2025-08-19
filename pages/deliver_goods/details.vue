@@ -1,18 +1,18 @@
 <template>
-	<view style="background-color: #efefef;">
+	<view style="background-color: #F9F9F9;">
 		<u-navbar :autoBack="true">
 			<template #center>
 				<view class="custom-title">
 					<view>
 						我要发货
 					</view>
-					<image src="/static/deliver_goods_active.png"></image>
+					<image src="/static/car_title.png"></image>
 				</view>
 			</template>
 		</u-navbar>
 		<u-status-bar></u-status-bar>
 		<view class="banner">
-			<image src="/static/deliver_goods_active.png"></image>
+			<image src="/static/banner.png"></image>
 		</view>
 		<u--form labelPosition="left" :model="formModel" :rules="rules" ref="uForm" labelWidth="70px">
 			<view class="card-box">
@@ -24,17 +24,17 @@
 					<view class="tips">{{ formModel.packagingType || '选择包装方式' }}</view>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
-				<u-form-item label="货物照片" prop="goodsPhotos" borderBottom>
+				<u-form-item label="货物照片" prop="goodsPhotos" :borderBottom="false">
 					<FileUplaod @change="fileChange" :defaultData="formModel.goodsPhotos" />
 				</u-form-item>
 			</view>
 			<view class="card-box">
-				<view class="form-item" style="gap: 20px;">
+				<view class="form-item">
 					<u-form-item label="总重量" prop="totalWeigth" borderBottom label-width="50px">
 						<view class="flexs unit-item">
 							<u--input v-model="formModel.totalWeigth" :customStyle="{width: '20px'}"
 								placeholder="请输入"></u--input>
-							<view class="unit">
+							<view class="unit" style="margin-right: 36rpx;">
 								吨
 							</view>
 						</view>
@@ -61,7 +61,7 @@
 					<u-form-item label="长度" prop="changdu" :borderBottom="false" label-width="70rpx">
 						<view class="flexs unit-item">
 							<u--input v-model="formModel.changdu" placeholder="请输入"></u--input>
-							<view class="unit">
+							<view class="unit" style="margin-right: 36rpx;">
 								米
 							</view>
 						</view>
@@ -84,7 +84,7 @@
 					</view>
 
 				</u-form-item>
-				<u-form-item label="车辆数" prop="cheliangshu" borderBottom>
+				<u-form-item label="车辆数" prop="cheliangshu" :borderBottom="false">
 					<view class="flexs unit-item">
 						<u-number-box v-model="formModel.cheliangshu" :customStyle="{width: '140px'}"
 							button-size="37"></u-number-box>
@@ -95,9 +95,11 @@
 				</u-form-item>
 			</view>
 			<view class="card-box">
-				<view class="chezibox">
+				<view class="car-module-box">
 					<u-tabs :list="chezichangdus"></u-tabs>
-					<u-swiper :list="chezis" @change="change" @click="click"></u-swiper>
+					<view class="swiper-box">
+						<u-swiper :list="chezis" @change="change" @click="click"></u-swiper>
+					</view>
 				</view>
 			</view>
 			<view class="card-box">
@@ -109,6 +111,74 @@
 						基本信息
 					</view>
 				</view>
+				<u-form-item label="订单号" prop="zhuangbasic.dingdanhao" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.zhuangbasic.dingdanhao" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="客户单号" prop="zhuangbasic.kehudanhao" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.zhuangbasic.kehudanhao" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="发货单位" prop="zhuangbasic.fahuodanwei" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.zhuangbasic.fahuodanwei" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="下单人" prop="zhuangbasic.xiadanren" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.zhuangbasic.xiadanren" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="省市区" prop="zhuangbasic.shengshiqu" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.zhuangbasic.shengshiqu" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="详细地址" prop="zhuangbasic.xiangxidizhi" :borderBottom="false" label-width="180rpx">
+					<u--textarea v-model="formModel.zhuangbasic.xiangxidizhi" placeholder="请输入"
+						border="none"></u--textarea>
+				</u-form-item>
+			</view>
+			<view class="card-box">
+				<view class="title-box">
+					<view class="basic-box">
+						卸
+					</view>
+					<view class="title-label">
+						基本信息
+					</view>
+				</view>
+				<u-form-item label="收货单位" prop="xiebaisc.shouhuodanwei" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.shouhuodanwei" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="收货联系人" prop="xiebaisc.shouhuolianxi" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.shouhuolianxi" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="手机号" prop="xiebaisc.shoujihao" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.shoujihao" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="省市区" prop="xiebaisc.shengshiqu" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.shengshiqu" placeholder="请输入" border="none"></u--input>
+					<template slot="right">
+						<view class="location-box" @click="importLocate">
+							<u-icon name="map-fill" color="#1B83FD;"></u-icon>
+							<view class="location-text">
+								定位
+							</view>
+						</view>
+					</template>
+
+				</u-form-item>
+				<u-form-item label="详细地址" prop="xiebaisc.xiangxidizhi" borderBottom label-width="180rpx">
+					<u--textarea v-model="formModel.xiebaisc.xiangxidizhi" placeholder="请输入"
+						border="none"></u--textarea>
+				</u-form-item>
+				<u-form-item label="卸货方式" prop="xiebaisc.xiehuofangshi" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.xiehuofangshi" placeholder="请输入" border="none"></u--input>
+				</u-form-item>
+				<u-form-item label="预计装车时间" prop="xiebaisc.yujizhuangcheshijian" borderBottom label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.yujizhuangcheshijian" placeholder="请输入"
+						border="none"></u--input>
+					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item>
+				<u-form-item label="要求送达时间" prop="xiebaisc.yaoqiudaodashijian" :borderBottom="false"
+					label-width="180rpx">
+					<u--input v-model="formModel.xiebaisc.yaoqiudaodashijian" placeholder="请输入"
+						border="none"></u--input>
+					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item>
 			</view>
 		</u--form>
 
@@ -119,6 +189,11 @@
 
 <script>
 	import FileUplaod from '@/pages/components/upload.vue'
+	let QQMapWX = require('@/utils/qqmap-wx-jssdk.min.js');
+
+	const qqmapsdk = new QQMapWX({
+		key: 'KSDBZ-RPMWB-SAKU5-JBSQ4-SDQMJ-I2BFG'
+	})
 
 	export default {
 		components: {
@@ -136,15 +211,32 @@
 					changdu: '',
 					kuandu: '',
 					gaodu: '',
-					cheliangshu: ''
-
+					cheliangshu: '',
+					zhuangbasic: {
+						dingdanhao: '',
+						kehudanhao: '',
+						fahuodanwei: '',
+						xiadanren: '',
+						shengshiqu: '',
+						xiangxidizhi: ''
+					},
+					xiebaisc: {
+						shouhuodanwei: '',
+						shouhuolianxi: '',
+						shoujihao: '',
+						shengshiqu: '',
+						xiangxidizhi: '',
+						xiehuofangshi: '',
+						yujizhuangcheshijian: '',
+						yaoqiudaodashijian: ''
+					}
 				},
 				showPackagingType: false,
 				packagingOptions: [
 					['中国', '美国', '日本']
 				],
 				chezis: [
-					"/static/deliver_goods_active.png",
+					"/static/car_module.png",
 					"https://uviewui.com/swiper/swiper2.png",
 					"https://uviewui.com/swiper/swiper3.png",
 				],
@@ -185,6 +277,50 @@
 			},
 			change(val) {
 				console.log(11, val);
+			},
+			getLocation() {
+				return new Promise((resolve) => {
+					uni.getLocation({
+						success({
+							latitude,
+							longitude
+						}) {
+							console.log(111000, latitude, longitude);
+							qqmapsdk.reverseGeocoder({
+								location: {
+									latitude,
+									longitude
+								},
+								success: function({
+									result
+								}) {
+									const {
+										province,
+										city,
+										district
+									} = result.ad_info
+									resolve({
+										pmd: province + city + district,
+										details: result.address
+									})
+								},
+								fail: function(error) {
+									console.log(error);
+									uni.$u.toast(error)
+								},
+							})
+						}
+					})
+				})
+			},
+			async importLocate() {
+				const {
+					pmd,
+					details
+				} = await this.getLocation()
+				this.formModel.xiebaisc.shengshiqu = pmd
+				this.formModel.xiebaisc.xiangxidizhi = details
+				console.log(pmd, details);
 			}
 		}
 	}
@@ -195,11 +331,11 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 4px;
+		gap: 18rpx;
 
 		image {
-			width: 24px;
-			height: 24px;
+			width: 68rpx;
+			height: 48rpx;
 		}
 	}
 
@@ -211,13 +347,13 @@
 	}
 
 	.banner {
-		padding: 24px;
-		border-radius: 12px;
-		margin-top: 36px;
+		padding: 24rpx 24rpx 0rpx 24rpx;
+		border-radius: 12rpx;
+		margin-top: 100rpx;
 
 		image {
 			width: 100%;
-			height: 120px;
+			height: 220rpx;
 		}
 	}
 
@@ -238,15 +374,20 @@
 		gap: 8rpx;
 	}
 
-	.chezibox {
+	.car-module-box {
 		background: #fff;
 		border-radius: 24rpx;
+
+		.swiper-box {
+			padding: 26rpx 0px;
+		}
 	}
 
 	.title-box {
 		display: flex;
 		gap: 12rpx;
 		align-items: center;
+
 		.basic-box {
 			background-color: #000;
 			border-radius: 50%;
@@ -257,12 +398,25 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			margin: 24rpx 0px;
+			margin: 24rpx 0rpx;
 		}
 
 		.title-label {
 			color: #000;
 			font-weight: 600;
+		}
+
+	}
+
+	.location-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		cursor: pointer;
+		color: #1B83FD;
+
+		.location-text {
+			color: #2A82E4;
 		}
 	}
 </style>

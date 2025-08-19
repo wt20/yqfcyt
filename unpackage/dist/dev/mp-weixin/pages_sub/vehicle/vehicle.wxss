@@ -35,4 +35,3 @@
 .list-item {
   grid-row-gap: 16rpx;
 }
-

@@ -34,7 +34,9 @@ view.data-v-055cbf89, scroll-view.data-v-055cbf89, swiper-item.data-v-055cbf89 {
   align-content: flex-start;
 }
 .u-loadmore.data-v-055cbf89 {
+
   display: flex;
+
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -42,7 +44,9 @@ view.data-v-055cbf89, scroll-view.data-v-055cbf89, swiper-item.data-v-055cbf89 {
 }
 .u-loadmore__content.data-v-055cbf89 {
   margin: 0 15px;
+
   display: flex;
+
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -58,4 +62,3 @@ view.data-v-055cbf89, scroll-view.data-v-055cbf89, swiper-item.data-v-055cbf89 {
   font-size: 15px;
   color: #909193;
 }
-

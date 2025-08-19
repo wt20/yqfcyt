@@ -37,11 +37,14 @@ view.data-v-97ce24d6, scroll-view.data-v-97ce24d6, swiper-item.data-v-97ce24d6 {
   flex: 1;
 }
 .u-radio-group--row.data-v-97ce24d6 {
+
   display: flex;
+
   flex-direction: row;
 }
 .u-radio-group--column.data-v-97ce24d6 {
+
   display: flex;
+
   flex-direction: column;
 }
-

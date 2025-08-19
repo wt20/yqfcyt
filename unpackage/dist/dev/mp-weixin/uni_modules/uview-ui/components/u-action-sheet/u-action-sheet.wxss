@@ -62,7 +62,9 @@ view.data-v-b62b882e, scroll-view.data-v-b62b882e, swiper-item.data-v-b62b882e {
 }
 .u-action-sheet__item-wrap__item.data-v-b62b882e {
   padding: 15px;
+
   display: flex;
+
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -88,4 +90,3 @@ view.data-v-b62b882e, scroll-view.data-v-b62b882e, swiper-item.data-v-b62b882e {
 .u-action-sheet--hover.data-v-b62b882e {
   background-color: #f2f3f5;
 }
-
