@@ -7,7 +7,7 @@
 		<u-status-bar></u-status-bar>
 		<view class="top-box">
 			<u-avatar src="https://yqfcyt.com/pro-api/profile/wx/static/logo.png" size="70"></u-avatar>
-			<text class="logo-title">运齐发储运通</text>
+			<text class="logo-title">运齐发仓储宝</text>
 		</view>
 		<view class="login-content">
 			<u-tabs :list="tabData" :scrollable="false" lineHeight="5" @click="tabClick"></u-tabs>

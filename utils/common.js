@@ -104,17 +104,36 @@ export const isEmpty = function(val) {
 	return !val && val !== 0
 }
 
-export const bindData = function(modal, data) {
-	for (var key in modal) {
-		if (modal.hasOwnProperty(key) && data.hasOwnProperty(key)) {
-			if (!isEmpty(data[key])) {
-				modal[key] = data[key]
-				// console.log(key);
-				// if(Object.prototype.toString.call(modal[key]) === '[object Object]') {
-				// 	bindData(modal[key], data[key])
-				// }else modal[key] = data[key]
-			}
-		}
+export const base64ToFile = (base64data, cb) => {
+	const fsm = uni.getFileSystemManager();
+	const FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名
+	const [, format, bodyData] = /data:image\/(\w+);base64,(.*)/.exec(base64data) || [];
+	if (!format) {
+		return (new Error('ERROR_BASE64SRC_PARSE'));
 	}
-	return modal
+	// #ifdef MP-KUAISHOU
+	const filePath = `${ks.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`;
+	// #endif
+	// #ifdef MP-TOUTIAO
+	const {
+		microapp,
+		common
+	} = uni.getEnvInfoSync();
+	const filePath = `${common.USER_DATA_PATH}/${FILE_BASE_NAME + Date.now()}.${format}`;
+	// #endif
+	// #ifdef MP-WEIXIN
+	const filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME + Date.now()}.${format}`;
+	// #endif
+	const buffer = uni.base64ToArrayBuffer(bodyData);
+	fsm.writeFile({
+		filePath,
+		data: buffer,
+		encoding: 'binary',
+		success() {
+			cb(filePath);
+		},
+		fail() {
+			return (new Error('ERROR_BASE64SRC_WRITE'));
+		},
+	});
 }

@@ -8,10 +8,12 @@
     "u-form-item": "/uni_modules/uview-ui/components/u-form-item/u-form-item",
     "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
     "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-upload": "/uni_modules/uview-ui/components/u-upload/u-upload",
     "u-number-box": "/uni_modules/uview-ui/components/u-number-box/u-number-box",
     "u-tabs": "/uni_modules/uview-ui/components/u-tabs/u-tabs",
     "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
     "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
     "u-picker": "/uni_modules/uview-ui/components/u-picker/u-picker",
     "file-uplaod": "/pages/components/upload"
   }

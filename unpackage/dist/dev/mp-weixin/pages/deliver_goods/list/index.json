@@ -4,6 +4,8 @@
     "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
     "u-list": "/uni_modules/uview-ui/components/u-list/u-list",
     "u-list-item": "/uni_modules/uview-ui/components/u-list-item/u-list-item",
-    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty"
+    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-safe-bottom": "/uni_modules/uview-ui/components/u-safe-bottom/u-safe-bottom"
   }
 }

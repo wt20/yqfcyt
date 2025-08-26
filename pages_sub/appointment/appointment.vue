@@ -7,47 +7,53 @@
 				@input="$u.debounce(searchList, 500)"></u--input>
 		</view>
 		<view v-if="list.length || status === 'loading'" style="margin-top: 24rpx;">
-			<u-list @scrolltolower="scrolltolower" :height="height">
-				<u-list-item v-for="(item, index) in list" :key="item.id">
-					<view class="list-item" @click="click(item)">
-						<view class="title">
-							预约类型
+			<u-list>
+					<u-list-item v-for="(item, index) in list" :key="item.id">
+						<view class="list-item" @click="()=> click(item)">
+							<view class="title">
+								发货单位名称
+							</view>
+							<view class="content content-full">
+								{{ item.carNo || '--' }}
+							</view>
+							<view class="title">
+								收货单位名称
+							</view>
+							<view class="content content-full">
+								{{ item.driverName || '--'  }}
+							</view>
+							<view class="title">
+								订单状态
+							</view>
+							<view class="content">
+								{{ typeMapping[item.type] || '--' }}
+							</view>
+							<view class="title">
+								卸货方式
+							</view>
+							<view class="content">
+								{{ item.warehouseName || '--'  }}
+							</view>
+							
+							<view class="title">
+								预计装车时间
+							</view>
+							<view class="content">
+								{{ item.driverMobile || '--'  }}
+							</view>
+							<view class="title">
+								要求送达时间
+							</view>
+							<view class="content">
+								{{ item.driverMobile || '--'  }}
+							</view>
 						</view>
-						<view class="content">
-							{{ item.appointmentType == '0' ? '入库': '出库' }}
-						</view>
-						<view class="title">
-							车牌/车号
-						</view>
-						<view class="content">
-							{{ item.vehicleNo || '' }}
-						</view>
-						<view class="title">
-							联系人
-						</view>
-						<view class="content">
-							{{ item.picker || '' }}
-						</view>
-						<view class="title">
-							手机号码
-						</view>
-						<view class="content">
-							{{ item.pickerMobile || '' }}
-						</view>
-						<view class="title">
-							预约时间
-						</view>
-						<view class="content content-full">
-							{{ item.appointmentTime }}
-						</view>
-					</view>
-				</u-list-item>
-				<u-loadmore :status="status" />
-			</u-list>
-		</view>
+					</u-list-item>
+				</u-list>
+			</view>
 		<u-empty v-else mode="list" marginTop="40%" />
 		<view class="add-btn" @click="add">
-			<u-icon name="plus" size="26" color="#fff"></u-icon>
+			<u-icon name="plus" pageSize="26" color="#fff"></u-icon>
 		</view>
 		<u-safe-bottom></u-safe-bottom>
 	</view>
@@ -60,7 +66,7 @@
 				list: [],
 				pageQuery: {
 					page: 0,
-					size: 30,
+					pageSize: 30,
 				},
 				otherQuery: {},
 				status: 'loading',
@@ -99,11 +105,11 @@
 					}
 				})
 				if (!rows) return
-				if (rows.length === 0 || rows.length < this.pageQuery.size) {
+				if (rows.length === 0 || rows.length < this.pageQuery.pageSize) {
 					if (total > this.list.length) this.list.push(...rows)
 					return this.status = 'nomore'
 				}
-				if (rows.length >= this.pageQuery.size) {
+				if (rows.length >= this.pageQuery.pageSize) {
 					this.list.push(...rows)
 					this.pageQuery.page++
 					this.status = 'loadmore'

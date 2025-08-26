@@ -16,16 +16,23 @@
 		</view>
 		<u--form labelPosition="left" :model="formModel" :rules="rules" ref="uForm" labelWidth="70px">
 			<view class="card-box">
-				<u-form-item label="货品名称" prop="goodsName" borderBottom>
+				<u-form-item label="货品名称" prop="goodsName" borderBottom @click="showGoodsNamePicker = true">
 					<view class="tips">{{ formModel.goodsName || '选择货品名称' }}</view>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
-				<u-form-item label="包装方式" prop="packagingType" borderBottom @click="showPackagingType = true">
+				<!-- <u-form-item label="包装方式" prop="packagingType" borderBottom @click="showPackagingType = true">
 					<view class="tips">{{ formModel.packagingType || '选择包装方式' }}</view>
 					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item> -->
+				<u-form-item label="包装方式" prop="packagingType" borderBottom>
+					<view slot="right" style="width: 200rpx;">
+						<u--input v-model="packagingType" placeholder="请填写包装方式" border="none"></u--input>
+					</view>
 				</u-form-item>
 				<u-form-item label="货物照片" prop="goodsPhotos" :borderBottom="false">
-					<FileUplaod @change="fileChange" :defaultData="formModel.goodsPhotos" />
+					<!-- <FileUplaod @change="fileChange" :defaultData="formModel.goodsPhotos" /> -->
+					<u-upload :fileList="fileList" :maxCount="1" @afterRead="afterRead" @delete="deleteFile"
+						:previewFullImage="true"></u-upload>
 				</u-form-item>
 			</view>
 			<view class="card-box">
@@ -179,16 +186,32 @@
 						border="none"></u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
+				<u-button type="primary" @click="submit">提 交</u-button>
 			</view>
 		</u--form>
 
-		<u-picker :show="showPackagingType" :columns="packagingOptions" @close="showPackagingType = false"
-			@confirm="packagingSelect" @cancel="showPackagingType = false"></u-picker>
+		<u-picker :show="showGoodsNamePicker" :closeOnClickOverlay="true" :columns="goodsNameOptions" keyName="itemName"
+			@close="showGoodsNamePicker = false" @confirm="goodsNameSelect"
+			@cancel="showGoodsNamePicker = false"></u-picker>
+		<!-- <u-picker :show="showPackagingType" :closeOnClickOverlay="true" :columns="packagingOptions"
+			@close="showPackagingType = false" @confirm="packagingSelect"
+			@cancel="showPackagingType = false"></u-picker> -->
 	</view>
 </template>
 
 <script>
 	import FileUplaod from '@/pages/components/upload.vue'
+	import {
+		getItemList,
+		getCustomerList,
+		getAreaList,
+		ordersCreate,
+		ordersUpdate
+	} from '@/pages_sub/api/transport.js'
+	import {
+		pathToBase64
+	} from 'image-tools'
+
 	let QQMapWX = require('@/utils/qqmap-wx-jssdk.min.js');
 
 	const qqmapsdk = new QQMapWX({
@@ -253,12 +276,29 @@
 					}
 				},
 
+				showGoodsNamePicker: false,
+				goodsNameOptions: [
+					['中国', '美国', '日本']
+				],
+
+				fileList: [],
 			};
 		},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules)
+
+			this.initData({
+				page: 1,
+				size: 1000
+			})
 		},
 		methods: {
+			async initData() {
+				const {
+					rows
+				} = await getItemList()
+				this.goodsNameOptions = [rows]
+			},
 			rightClick() {
 				console.log('rightClick');
 			},
@@ -266,6 +306,14 @@
 				this.formModel.packagingType = e.value[0]
 				this.$refs.uForm.validateField('packagingType')
 				this.showPackagingType = false
+			},
+			goodsNameSelect(e) {
+				const {
+					itemName
+				} = e.value[0]
+				this.formModel.goodsName = itemName
+				this.$refs.uForm.validateField('goodsName')
+				this.showGoodsNamePicker = false
 			},
 			fileChange(files) {
 				this.formModel.goodsPhotos = files.map(i => {
@@ -275,9 +323,24 @@
 					}
 				})
 			},
-			change(val) {
-				console.log(11, val);
+			change(val) {},
+
+			beforeRead(file) {
+				console.log(1, file);
+
 			},
+			afterRead(file, b, c) {
+				console.log(file, b, c);
+				this.fileList = [{
+					url: file.file.url,
+					file: file.file
+				}]
+			},
+			deleteFile() {
+				this.fileList = []
+			},
+
+
 			getLocation() {
 				return new Promise((resolve) => {
 					uni.getLocation({
@@ -321,7 +384,8 @@
 				this.formModel.xiebaisc.shengshiqu = pmd
 				this.formModel.xiebaisc.xiangxidizhi = details
 				console.log(pmd, details);
-			}
+			},
+			submit() {}
 		}
 	}
 </script>
@@ -344,6 +408,10 @@
 		border-radius: 16rpx;
 		margin: 36rpx;
 		padding: 0rpx 36rpx;
+
+		.tips {
+			text-align: end;
+		}
 	}
 
 	.banner {

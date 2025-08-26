@@ -19405,12 +19405,14 @@ uni.$u.http.interceptors.response.use(function (response) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isOwnerDp = exports.isEmpty = exports.formatPast = exports.formatDateLL = exports.createUUID = exports.bindData = void 0;
+exports.isOwnerDp = exports.isEmpty = exports.formatPast = exports.formatDateLL = exports.createUUID = exports.base64ToFile = void 0;
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 // 公共js
 
 // 随机id
@@ -19515,23 +19517,32 @@ var isEmpty = function isEmpty(val) {
   return !val && val !== 0;
 };
 exports.isEmpty = isEmpty;
-var bindData = function bindData(modal, data) {
-  for (var key in modal) {
-    if (modal.hasOwnProperty(key) && data.hasOwnProperty(key)) {
-      if (!isEmpty(data[key])) {
-        modal[key] = data[key];
-        // console.log(key);
-        // if(Object.prototype.toString.call(modal[key]) === '[object Object]') {
-        // 	bindData(modal[key], data[key])
-        // }else modal[key] = data[key]
-      }
-    }
+var base64ToFile = function base64ToFile(base64data, cb) {
+  var fsm = uni.getFileSystemManager();
+  var FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名
+  var _ref = /data:image\/(\w+);base64,(.*)/.exec(base64data) || [],
+    _ref2 = (0, _slicedToArray2.default)(_ref, 3),
+    format = _ref2[1],
+    bodyData = _ref2[2];
+  if (!format) {
+    return new Error('ERROR_BASE64SRC_PARSE');
   }
-
-  return modal;
+  var filePath = "".concat(wx.env.USER_DATA_PATH, "/").concat(FILE_BASE_NAME + Date.now(), ".").concat(format);
+  var buffer = uni.base64ToArrayBuffer(bodyData);
+  fsm.writeFile({
+    filePath: filePath,
+    data: buffer,
+    encoding: 'binary',
+    success: function success() {
+      cb(filePath);
+    },
+    fail: function fail() {
+      return new Error('ERROR_BASE64SRC_WRITE');
+    }
+  });
 };
-exports.bindData = bindData;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+exports.base64ToFile = base64ToFile;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 /* 161 */,
@@ -20741,7 +20752,228 @@ module.exports = QQMapWX;
 /* 199 */,
 /* 200 */,
 /* 201 */,
-/* 202 */,
+/* 202 */
+/*!**********************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/pages_sub/api/transport.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.tLogin = exports.ordersUpdate = exports.ordersFilter = exports.ordersCreate = exports.orderStatusUpdate = exports.getItemList = exports.getDriverTransportOrder = exports.getCustomerList = exports.getAreaList = void 0;
+var baseUrl = 'https://yqfcyt.com/PetroCarRentPlatform';
+
+// 登录
+var tLogin = function tLogin(data) {
+  return uni.$u.http.request({
+    method: 'POST',
+    url: "".concat(baseUrl, "/system/doLogin"),
+    data: data,
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+};
+
+// 查询货物列表（创建订单下拉列表）
+exports.tLogin = tLogin;
+var getItemList = function getItemList(data) {
+  // return uni.$u.http.post(`${baseUrl}/item/getItemList`, null, {
+  // 	data: data,
+  // })
+  // return uni.$u.http.request({
+  // 	method: 'POST',
+  // 	url: `${baseUrl}/item/getItemList`,
+  // 	data,
+  // 	header: {
+  // 		'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  // 	}
+  // })
+
+  return {
+    "page": 1,
+    "records": 7,
+    "rows": [{
+      "createTime": "2025-08-14 16:10:26",
+      "delFlag": 0,
+      "id": 7,
+      "itemModel": "低压2911",
+      "itemName": "中油抚顺低压2911",
+      "itemNo": "HP0864",
+      "label": "",
+      "packaging": "",
+      "productionPlace": "中油抚顺",
+      "remark": "",
+      "specification": "25KG",
+      "type": "普货",
+      "unitVolume": "",
+      "unitWeight": "25",
+      "updateTime": "2025-08-14 16:10:26"
+    }, {
+      "createTime": "2025-08-12 11:33:35",
+      "delFlag": 0,
+      "id": 6,
+      "itemModel": "低压23050 ",
+      "itemName": "兰化榆林低压23050 ",
+      "itemNo": "HP69563",
+      "label": "",
+      "packaging": "",
+      "productionPlace": "中油兰化榆林",
+      "remark": "",
+      "specification": "",
+      "type": "",
+      "unitVolume": "",
+      "unitWeight": "50",
+      "updateTime": "2025-08-13 09:45:09"
+    }, {
+      "createTime": "2025-08-12 11:15:49",
+      "delFlag": 0,
+      "id": 5,
+      "itemModel": "2426H",
+      "itemName": "聚乙烯新疆2426H",
+      "itemNo": "HP87462",
+      "label": "普货",
+      "packaging": "塑料袋",
+      "productionPlace": "新疆",
+      "remark": "",
+      "specification": "25KG",
+      "type": "",
+      "unitVolume": "",
+      "unitWeight": "25",
+      "updateTime": "2025-08-12 11:15:49"
+    }, {
+      "createTime": "2025-08-12 10:21:50",
+      "delFlag": 0,
+      "id": 4,
+      "itemModel": "",
+      "itemName": "7042",
+      "itemNo": "7042",
+      "label": "",
+      "packaging": "",
+      "productionPlace": "",
+      "remark": "",
+      "specification": "",
+      "type": "",
+      "unitVolume": "",
+      "unitWeight": "25",
+      "updateTime": "2025-08-12 10:21:50"
+    }, {
+      "createTime": "2025-08-01 14:50:56",
+      "delFlag": 0,
+      "id": 3,
+      "itemModel": "EP533N ",
+      "itemName": "聚丙烯兰化EP533N",
+      "itemNo": "HP7686",
+      "label": "",
+      "packaging": "塑料袋",
+      "productionPlace": "中油兰州石化",
+      "remark": "",
+      "specification": "25KG",
+      "type": "普货",
+      "unitVolume": "",
+      "unitWeight": "25",
+      "updateTime": "2025-08-12 11:15:04"
+    }, {
+      "createTime": "2025-07-31 10:39:22",
+      "delFlag": 0,
+      "id": 2,
+      "itemModel": "针状（中性无字包装）",
+      "itemName": "阴离子型有机表面活性剂江苏十二烷基硫酸钠",
+      "itemNo": "HP151",
+      "label": "",
+      "packaging": "纸塑复合袋",
+      "productionPlace": "江苏",
+      "remark": "",
+      "specification": "25KG",
+      "type": "普货",
+      "unitVolume": "",
+      "unitWeight": "25",
+      "updateTime": "2025-07-31 10:39:22"
+    }, {
+      "createTime": "2025-07-31 09:50:21",
+      "delFlag": 0,
+      "id": 1,
+      "itemModel": "1810D",
+      "itemName": "聚乙烯新疆1810D",
+      "itemNo": "HP157",
+      "label": "",
+      "packaging": "塑料袋",
+      "productionPlace": "新疆",
+      "remark": "",
+      "specification": "25KG",
+      "type": "普货",
+      "unitVolume": "",
+      "unitWeight": "",
+      "updateTime": "2025-08-12 11:14:43"
+    }],
+    "total": 1
+  };
+};
+
+// 查询客户列表（创建订单下拉列表）
+exports.getItemList = getItemList;
+var getCustomerList = function getCustomerList(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/customer/getCustomerList"), null, {
+    data: data
+  });
+};
+
+// 查询区域地址列表（创建订单下拉列表）
+exports.getCustomerList = getCustomerList;
+var getAreaList = function getAreaList(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/area/getAreaList"), null, {
+    data: data
+  });
+};
+
+// 新增订单
+exports.getAreaList = getAreaList;
+var ordersCreate = function ordersCreate(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/api/orders/create"), null, {
+    data: data
+  });
+};
+
+// 修改订单
+exports.ordersCreate = ordersCreate;
+var ordersUpdate = function ordersUpdate(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/api/orders/update"), null, {
+    data: data
+  });
+};
+
+// 查询订单列表
+exports.ordersUpdate = ordersUpdate;
+var ordersFilter = function ordersFilter(data) {
+  return uni.$u.http.get("".concat(baseUrl, "/api/orders/filter"), {
+    params: data
+  });
+};
+
+// 查询派给我的订单列表
+exports.ordersFilter = ordersFilter;
+var getDriverTransportOrder = function getDriverTransportOrder(data) {
+  return uni.$u.http.get("".concat(baseUrl, "/api/orders/getDriverTransportOrder"), {
+    params: data
+  });
+};
+
+// 修改订单状态
+exports.getDriverTransportOrder = getDriverTransportOrder;
+var orderStatusUpdate = function orderStatusUpdate(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/api/orderStatus/wx/update"), null, {
+    data: data
+  });
+};
+exports.orderStatusUpdate = orderStatusUpdate;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
 /* 203 */,
 /* 204 */,
 /* 205 */,
@@ -20898,7 +21130,32 @@ module.exports = QQMapWX;
 /* 356 */,
 /* 357 */,
 /* 358 */,
-/* 359 */
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-status-bar/props.js ***!
   \*************************************************************************************************************/
@@ -20924,14 +21181,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-icon/icons.js ***!
   \*******************************************************************************************************/
@@ -21162,7 +21419,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 368 */
+/* 393 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-icon/props.js ***!
   \*******************************************************************************************************/
@@ -21269,14 +21526,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-navbar/props.js ***!
   \*********************************************************************************************************/
@@ -21378,14 +21635,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-avatar/props.js ***!
   \*********************************************************************************************************/
@@ -21481,14 +21738,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-cell-group/props.js ***!
   \*************************************************************************************************************/
@@ -21520,14 +21777,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-cell/props.js ***!
   \*******************************************************************************************************/
@@ -21655,14 +21912,14 @@ exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-form/props.js ***!
   \*******************************************************************************************************/
@@ -21725,12 +21982,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */
 /*!************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-form-item/props.js ***!
   \************************************************************************************************************/
@@ -21796,14 +22053,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-input/props.js ***!
   \********************************************************************************************************/
@@ -22008,12 +22265,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-number-box/props.js ***!
   \*************************************************************************************************************/
@@ -22140,14 +22397,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-tabs/props.js ***!
   \*******************************************************************************************************/
@@ -22229,14 +22486,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-swiper/props.js ***!
   \*********************************************************************************************************/
@@ -22379,14 +22636,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-textarea/props.js ***!
   \***********************************************************************************************************/
@@ -22523,12 +22780,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-picker/props.js ***!
   \*********************************************************************************************************/
@@ -22625,19 +22882,19 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */,
+/* 488 */,
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-list/props.js ***!
   \*******************************************************************************************************/
@@ -22730,14 +22987,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */,
-/* 479 */
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */
 /*!************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-list-item/props.js ***!
   \************************************************************************************************************/
@@ -22764,14 +23021,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-loadmore/props.js ***!
   \***********************************************************************************************************/
@@ -22883,14 +23140,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-empty/props.js ***!
   \********************************************************************************************************/
@@ -22967,21 +23224,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 496 */,
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */,
-/* 501 */,
-/* 502 */,
-/* 503 */,
-/* 504 */,
-/* 505 */,
-/* 506 */,
-/* 507 */,
-/* 508 */,
-/* 509 */,
-/* 510 */
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */,
+/* 534 */,
+/* 535 */
 /*!**************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \**************************************************************************************************************/
@@ -23001,14 +23258,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */
+/* 536 */,
+/* 537 */,
+/* 538 */,
+/* 539 */,
+/* 540 */,
+/* 541 */,
+/* 542 */,
+/* 543 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-transition/props.js ***!
   \*************************************************************************************************************/
@@ -23050,7 +23307,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 519 */
+/* 544 */
 /*!******************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-transition/transition.js ***!
   \******************************************************************************************************************/
@@ -23067,7 +23324,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 56));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 58));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 520));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 545));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -23159,7 +23416,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 520 */
+/* 545 */
 /*!********************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \********************************************************************************************************************/
@@ -23352,14 +23609,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */
+/* 546 */,
+/* 547 */,
+/* 548 */,
+/* 549 */,
+/* 550 */,
+/* 551 */,
+/* 552 */,
+/* 553 */
 /*!******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-tag/props.js ***!
   \******************************************************************************************************/
@@ -23461,21 +23718,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */
+/* 554 */,
+/* 555 */,
+/* 556 */,
+/* 557 */,
+/* 558 */,
+/* 559 */,
+/* 560 */,
+/* 561 */,
+/* 562 */,
+/* 563 */,
+/* 564 */,
+/* 565 */,
+/* 566 */,
+/* 567 */,
+/* 568 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-badge/props.js ***!
   \********************************************************************************************************/
@@ -23565,14 +23822,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */
+/* 569 */,
+/* 570 */,
+/* 571 */,
+/* 572 */,
+/* 573 */,
+/* 574 */,
+/* 575 */,
+/* 576 */
 /*!**************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-radio-group/props.js ***!
   \**************************************************************************************************************/
@@ -23674,14 +23931,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 552 */,
-/* 553 */,
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */
+/* 577 */,
+/* 578 */,
+/* 579 */,
+/* 580 */,
+/* 581 */,
+/* 582 */,
+/* 583 */,
+/* 584 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-radio/props.js ***!
   \********************************************************************************************************/
@@ -23763,14 +24020,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */
+/* 585 */,
+/* 586 */,
+/* 587 */,
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */,
+/* 592 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-divider/props.js ***!
   \**********************************************************************************************************/
@@ -23832,14 +24089,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */
+/* 593 */,
+/* 594 */,
+/* 595 */,
+/* 596 */,
+/* 597 */,
+/* 598 */,
+/* 599 */,
+/* 600 */
 /*!*************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/mixin/button.js ***!
   \*************************************************************************************************/
@@ -23869,7 +24126,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 576 */
+/* 601 */
 /*!***************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/mixin/openType.js ***!
   \***************************************************************************************************/
@@ -23911,7 +24168,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 577 */
+/* 602 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-button/props.js ***!
   \*********************************************************************************************************/
@@ -24090,14 +24347,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */,
-/* 585 */
+/* 603 */,
+/* 604 */,
+/* 605 */,
+/* 606 */,
+/* 607 */,
+/* 608 */,
+/* 609 */,
+/* 610 */
 /*!******************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-datetime-picker/props.js ***!
   \******************************************************************************************************************/
@@ -24231,7 +24488,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 586 */
+/* 611 */
 /*!***********************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/util/dayjs.js ***!
   \***********************************************************************************************/
@@ -24543,31 +24800,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 });
 
 /***/ }),
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */,
-/* 592 */,
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */,
-/* 600 */,
-/* 601 */,
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */,
-/* 607 */,
-/* 608 */,
-/* 609 */,
-/* 610 */,
-/* 611 */,
 /* 612 */,
 /* 613 */,
 /* 614 */,
@@ -24576,7 +24808,32 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 /* 617 */,
 /* 618 */,
 /* 619 */,
-/* 620 */
+/* 620 */,
+/* 621 */,
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */,
+/* 627 */,
+/* 628 */,
+/* 629 */,
+/* 630 */,
+/* 631 */,
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */
 /*!***************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-action-sheet/props.js ***!
   \***************************************************************************************************************/
@@ -24648,14 +24905,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */,
-/* 625 */,
-/* 626 */,
-/* 627 */,
-/* 628 */
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-calendar/props.js ***!
   \***********************************************************************************************************/
@@ -24817,7 +25074,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 629 */
+/* 654 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-calendar/util.js ***!
   \**********************************************************************************************************/
@@ -24914,7 +25171,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 630 */
+/* 655 */
 /*!**************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/util/calendar.js ***!
   \**************************************************************************************************/
@@ -25431,28 +25688,28 @@ var _default = calendar;
 exports.default = _default;
 
 /***/ }),
-/* 631 */,
-/* 632 */,
-/* 633 */,
-/* 634 */,
-/* 635 */,
-/* 636 */,
-/* 637 */,
-/* 638 */,
-/* 639 */,
-/* 640 */,
-/* 641 */,
-/* 642 */,
-/* 643 */,
-/* 644 */,
-/* 645 */,
-/* 646 */,
-/* 647 */,
-/* 648 */,
-/* 649 */,
-/* 650 */,
-/* 651 */,
-/* 652 */
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */,
+/* 664 */,
+/* 665 */,
+/* 666 */,
+/* 667 */,
+/* 668 */,
+/* 669 */,
+/* 670 */,
+/* 671 */,
+/* 672 */,
+/* 673 */,
+/* 674 */,
+/* 675 */,
+/* 676 */,
+/* 677 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-modal/props.js ***!
   \********************************************************************************************************/
@@ -25559,31 +25816,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 653 */,
-/* 654 */,
-/* 655 */,
-/* 656 */,
-/* 657 */,
-/* 658 */,
-/* 659 */,
-/* 660 */,
-/* 661 */,
-/* 662 */,
-/* 663 */,
-/* 664 */,
-/* 665 */,
-/* 666 */,
-/* 667 */,
-/* 668 */,
-/* 669 */,
-/* 670 */,
-/* 671 */,
-/* 672 */,
-/* 673 */,
-/* 674 */,
-/* 675 */,
-/* 676 */,
-/* 677 */,
 /* 678 */,
 /* 679 */,
 /* 680 */,
@@ -25592,7 +25824,32 @@ exports.default = _default;
 /* 683 */,
 /* 684 */,
 /* 685 */,
-/* 686 */
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
+/* 695 */,
+/* 696 */,
+/* 697 */,
+/* 698 */,
+/* 699 */,
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */,
+/* 711 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-text/props.js ***!
   \*******************************************************************************************************/
@@ -25720,12 +25977,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 687 */,
-/* 688 */,
-/* 689 */,
-/* 690 */,
-/* 691 */,
-/* 692 */
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-line/props.js ***!
   \*******************************************************************************************************/
@@ -25776,14 +26033,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 693 */,
-/* 694 */,
-/* 695 */,
-/* 696 */,
-/* 697 */,
-/* 698 */,
-/* 699 */,
-/* 700 */
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/util/async-validator.js ***!
   \*********************************************************************************************************/
@@ -26964,10 +27221,10 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema; // # sourceMappingURL=index.js.map
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 701)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 726)))
 
 /***/ }),
-/* 701 */
+/* 726 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -26998,7 +27255,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 702);
+        if (!path) path = __webpack_require__(/*! path */ 727);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -27011,7 +27268,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 702 */
+/* 727 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -27321,22 +27578,22 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 701)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 726)))
 
 /***/ }),
-/* 703 */,
-/* 704 */,
-/* 705 */,
-/* 706 */,
-/* 707 */,
-/* 708 */,
-/* 709 */,
-/* 710 */,
-/* 711 */,
-/* 712 */,
-/* 713 */,
-/* 714 */,
-/* 715 */
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */
 /*!***************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
   \***************************************************************************************************************/
@@ -27413,14 +27670,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 716 */,
-/* 717 */,
-/* 718 */,
-/* 719 */,
-/* 720 */,
-/* 721 */,
-/* 722 */,
-/* 723 */
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */
 /*!*******************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \*******************************************************************************************************************/
@@ -27467,21 +27724,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 724 */,
-/* 725 */,
-/* 726 */,
-/* 727 */,
-/* 728 */,
-/* 729 */,
-/* 730 */,
-/* 731 */,
-/* 732 */,
-/* 733 */,
-/* 734 */,
-/* 735 */,
-/* 736 */,
-/* 737 */,
-/* 738 */
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-popup/props.js ***!
   \********************************************************************************************************/
@@ -27578,14 +27835,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 739 */,
-/* 740 */,
-/* 741 */,
-/* 742 */,
-/* 743 */,
-/* 744 */,
-/* 745 */,
-/* 746 */
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-toolbar/props.js ***!
   \**********************************************************************************************************/
@@ -27637,14 +27894,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 747 */,
-/* 748 */,
-/* 749 */,
-/* 750 */,
-/* 751 */,
-/* 752 */,
-/* 753 */,
-/* 754 */
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/utils.js ***!
   \*********************************************************************************************************/
@@ -27788,7 +28045,7 @@ function chooseFile(_ref) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 755 */
+/* 780 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/mixin.js ***!
   \*********************************************************************************************************/
@@ -27815,7 +28072,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 756 */
+/* 781 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/props.js ***!
   \*********************************************************************************************************/
@@ -27957,19 +28214,19 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */,
-/* 763 */,
-/* 764 */,
-/* 765 */,
-/* 766 */,
-/* 767 */,
-/* 768 */,
-/* 769 */
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */
 /*!*****************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-checkbox-group/props.js ***!
   \*****************************************************************************************************************/
@@ -28066,14 +28323,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 770 */,
-/* 771 */,
-/* 772 */,
-/* 773 */,
-/* 774 */,
-/* 775 */,
-/* 776 */,
-/* 777 */
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-checkbox/props.js ***!
   \***********************************************************************************************************/
@@ -28160,14 +28417,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 778 */,
-/* 779 */,
-/* 780 */,
-/* 781 */,
-/* 782 */,
-/* 783 */,
-/* 784 */,
-/* 785 */
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */
 /*!******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-gap/props.js ***!
   \******************************************************************************************************/
@@ -28209,33 +28466,33 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 786 */,
-/* 787 */,
-/* 788 */,
-/* 789 */,
-/* 790 */,
-/* 791 */,
-/* 792 */,
-/* 793 */,
-/* 794 */,
-/* 795 */,
-/* 796 */,
-/* 797 */,
-/* 798 */,
-/* 799 */,
-/* 800 */,
-/* 801 */,
-/* 802 */,
-/* 803 */,
-/* 804 */,
-/* 805 */,
-/* 806 */,
-/* 807 */,
-/* 808 */,
-/* 809 */,
-/* 810 */,
 /* 811 */,
-/* 812 */
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */,
+/* 819 */,
+/* 820 */,
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */,
+/* 825 */,
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-search/props.js ***!
   \*********************************************************************************************************/
@@ -28371,14 +28628,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 813 */,
-/* 814 */,
-/* 815 */,
-/* 816 */,
-/* 817 */,
-/* 818 */,
-/* 819 */,
-/* 820 */
+/* 838 */,
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-text/value.js ***!
   \*******************************************************************************************************/
@@ -28486,14 +28743,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 821 */,
-/* 822 */,
-/* 823 */,
-/* 824 */,
-/* 825 */,
-/* 826 */,
-/* 827 */,
-/* 828 */
+/* 846 */,
+/* 847 */,
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-overlay/props.js ***!
   \**********************************************************************************************************/
@@ -28535,14 +28792,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 829 */,
-/* 830 */,
-/* 831 */,
-/* 832 */,
-/* 833 */,
-/* 834 */,
-/* 835 */,
-/* 836 */
+/* 854 */,
+/* 855 */,
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-link/props.js ***!
   \*******************************************************************************************************/
@@ -28597,6 +28854,334 @@ var _default = {
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 862 */,
+/* 863 */,
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */,
+/* 869 */,
+/* 870 */,
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */,
+/* 879 */,
+/* 880 */,
+/* 881 */,
+/* 882 */,
+/* 883 */,
+/* 884 */,
+/* 885 */,
+/* 886 */,
+/* 887 */,
+/* 888 */,
+/* 889 */,
+/* 890 */,
+/* 891 */,
+/* 892 */,
+/* 893 */,
+/* 894 */,
+/* 895 */,
+/* 896 */,
+/* 897 */,
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */,
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */,
+/* 939 */,
+/* 940 */,
+/* 941 */,
+/* 942 */,
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */,
+/* 947 */,
+/* 948 */,
+/* 949 */,
+/* 950 */,
+/* 951 */,
+/* 952 */,
+/* 953 */,
+/* 954 */,
+/* 955 */,
+/* 956 */,
+/* 957 */,
+/* 958 */,
+/* 959 */,
+/* 960 */,
+/* 961 */,
+/* 962 */,
+/* 963 */,
+/* 964 */,
+/* 965 */,
+/* 966 */,
+/* 967 */,
+/* 968 */,
+/* 969 */,
+/* 970 */,
+/* 971 */,
+/* 972 */,
+/* 973 */,
+/* 974 */,
+/* 975 */,
+/* 976 */,
+/* 977 */
+/*!*****************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/node_modules/image-tools/index.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(wx) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.base64ToPath = base64ToPath;
+exports.pathToBase64 = pathToBase64;
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+function getLocalFilePath(path) {
+  if (path.indexOf('_www') === 0 || path.indexOf('_doc') === 0 || path.indexOf('_documents') === 0 || path.indexOf('_downloads') === 0) {
+    return path;
+  }
+  if (path.indexOf('file://') === 0) {
+    return path;
+  }
+  if (path.indexOf('/storage/emulated/0/') === 0) {
+    return path;
+  }
+  if (path.indexOf('/') === 0) {
+    var localFilePath = plus.io.convertAbsoluteFileSystem(path);
+    if (localFilePath !== path) {
+      return localFilePath;
+    } else {
+      path = path.substr(1);
+    }
+  }
+  return '_www/' + path;
+}
+function dataUrlToBase64(str) {
+  var array = str.split(',');
+  return array[array.length - 1];
+}
+var index = 0;
+function getNewFileId() {
+  return Date.now() + String(index++);
+}
+function biggerThan(v1, v2) {
+  var v1Array = v1.split('.');
+  var v2Array = v2.split('.');
+  var update = false;
+  for (var index = 0; index < v2Array.length; index++) {
+    var diff = v1Array[index] - v2Array[index];
+    if (diff !== 0) {
+      update = diff > 0;
+      break;
+    }
+  }
+  return update;
+}
+function pathToBase64(path) {
+  return new Promise(function (resolve, reject) {
+    if ((typeof window === "undefined" ? "undefined" : (0, _typeof2.default)(window)) === 'object' && 'document' in window) {
+      if (typeof FileReader === 'function') {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', path, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function () {
+          if (this.status === 200) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+              resolve(e.target.result);
+            };
+            fileReader.onerror = reject;
+            fileReader.readAsDataURL(this.response);
+          }
+        };
+        xhr.onerror = reject;
+        xhr.send();
+        return;
+      }
+      var canvas = document.createElement('canvas');
+      var c2x = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        c2x.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL());
+        canvas.height = canvas.width = 0;
+      };
+      img.onerror = reject;
+      img.src = path;
+      return;
+    }
+    if ((typeof plus === "undefined" ? "undefined" : (0, _typeof2.default)(plus)) === 'object') {
+      plus.io.resolveLocalFileSystemURL(getLocalFilePath(path), function (entry) {
+        entry.file(function (file) {
+          var fileReader = new plus.io.FileReader();
+          fileReader.onload = function (data) {
+            resolve(data.target.result);
+          };
+          fileReader.onerror = function (error) {
+            reject(error);
+          };
+          fileReader.readAsDataURL(file);
+        }, function (error) {
+          reject(error);
+        });
+      }, function (error) {
+        reject(error);
+      });
+      return;
+    }
+    if ((typeof wx === "undefined" ? "undefined" : (0, _typeof2.default)(wx)) === 'object' && wx.canIUse('getFileSystemManager')) {
+      wx.getFileSystemManager().readFile({
+        filePath: path,
+        encoding: 'base64',
+        success: function success(res) {
+          resolve('data:image/png;base64,' + res.data);
+        },
+        fail: function fail(error) {
+          reject(error);
+        }
+      });
+      return;
+    }
+    reject(new Error('not support'));
+  });
+}
+function base64ToPath(base64) {
+  return new Promise(function (resolve, reject) {
+    if ((typeof window === "undefined" ? "undefined" : (0, _typeof2.default)(window)) === 'object' && 'document' in window) {
+      base64 = base64.split(',');
+      var type = base64[0].match(/:(.*?);/)[1];
+      var str = atob(base64[1]);
+      var n = str.length;
+      var array = new Uint8Array(n);
+      while (n--) {
+        array[n] = str.charCodeAt(n);
+      }
+      return resolve((window.URL || window.webkitURL).createObjectURL(new Blob([array], {
+        type: type
+      })));
+    }
+    var extName = base64.split(',')[0].match(/data\:\S+\/(\S+);/);
+    if (extName) {
+      extName = extName[1];
+    } else {
+      reject(new Error('base64 error'));
+    }
+    var fileName = getNewFileId() + '.' + extName;
+    if ((typeof plus === "undefined" ? "undefined" : (0, _typeof2.default)(plus)) === 'object') {
+      var basePath = '_doc';
+      var dirPath = 'uniapp_temp';
+      var filePath = basePath + '/' + dirPath + '/' + fileName;
+      if (!biggerThan(plus.os.name === 'Android' ? '1.9.9.80627' : '1.9.9.80472', plus.runtime.innerVersion)) {
+        plus.io.resolveLocalFileSystemURL(basePath, function (entry) {
+          entry.getDirectory(dirPath, {
+            create: true,
+            exclusive: false
+          }, function (entry) {
+            entry.getFile(fileName, {
+              create: true,
+              exclusive: false
+            }, function (entry) {
+              entry.createWriter(function (writer) {
+                writer.onwrite = function () {
+                  resolve(filePath);
+                };
+                writer.onerror = reject;
+                writer.seek(0);
+                writer.writeAsBinary(dataUrlToBase64(base64));
+              }, reject);
+            }, reject);
+          }, reject);
+        }, reject);
+        return;
+      }
+      var bitmap = new plus.nativeObj.Bitmap(fileName);
+      bitmap.loadBase64Data(base64, function () {
+        bitmap.save(filePath, {}, function () {
+          bitmap.clear();
+          resolve(filePath);
+        }, function (error) {
+          bitmap.clear();
+          reject(error);
+        });
+      }, function (error) {
+        bitmap.clear();
+        reject(error);
+      });
+      return;
+    }
+    if ((typeof wx === "undefined" ? "undefined" : (0, _typeof2.default)(wx)) === 'object' && wx.canIUse('getFileSystemManager')) {
+      var filePath = wx.env.USER_DATA_PATH + '/' + fileName;
+      wx.getFileSystemManager().writeFile({
+        filePath: filePath,
+        data: dataUrlToBase64(base64),
+        encoding: 'base64',
+        success: function success() {
+          resolve(filePath);
+        },
+        fail: function fail(error) {
+          reject(error);
+        }
+      });
+      return;
+    }
+    reject(new Error('not support'));
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ })
 ]]);

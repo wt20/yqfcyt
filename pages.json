@@ -178,6 +178,13 @@
 				{
 					"navigationBarTitleText" : "车辆详情"
 				}
+			},
+			{
+				"path" : "transportLogin/transportLogin",
+				"style" : 
+				{
+					"navigationBarTitleText" : "运输系统登陆"
+				}
 			}
 		]
 	}],

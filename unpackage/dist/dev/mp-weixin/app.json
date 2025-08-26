@@ -28,7 +28,8 @@
         "inventoryCheck/selectGoods/selectGoods",
         "inventoryCheck/selectGoods/editGoods/editGoods",
         "vehicle/vehicle",
-        "vehicle/details/details"
+        "vehicle/details/details",
+        "transportLogin/transportLogin"
       ]
     }
   ],
