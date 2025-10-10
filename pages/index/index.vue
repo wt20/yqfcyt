@@ -97,7 +97,7 @@
 					admin: ['/pages_sub/appointment/appointment',
 						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
 						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
-						'/pages_sub/vehicle/vehicle'
+						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
 					],
 					customer: ['/pages_sub/appointment/appointment', '/pages_sub/myGoods/myGoods']
 				}
@@ -164,7 +164,11 @@
 						url: '/pages_sub/myGoods/myGoods',
 					},
 					{
-						img: 'warehouse_menu5',
+						img: 'warehouse_menu6',
+						text: '经营看板',
+						url: '/pages_sub/kanban/kanban',
+					}, {
+						img: 'warehouse_menu7',
 						text: '车辆管理',
 						url: '/pages_sub/vehicle/vehicle',
 					}

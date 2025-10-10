@@ -1,4 +1,5 @@
 {
+  "component": true,
   "usingComponents": {
     "u-popup": "/uni_modules/uview-ui/components/u-popup/u-popup",
     "u--form": "/uni_modules/uview-ui/components/u--form/u--form",
@@ -9,6 +10,5 @@
     "u-picker": "/uni_modules/uview-ui/components/u-picker/u-picker",
     "u-calendar": "/uni_modules/uview-ui/components/u-calendar/u-calendar",
     "search-piker": "/pages_sub/components/SearchPiker"
-  },
-  "component": true
+  }
 }

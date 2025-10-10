@@ -1,4 +1,4 @@
-<!-- 运输登录页面 -->
+<!-- 登录页面 -->
 <template>
 	<view>
 		<view class="login-bg">
@@ -7,7 +7,7 @@
 		<u-status-bar></u-status-bar>
 		<view class="top-box">
 			<u-avatar src="https://yqfcyt.com/pro-api/profile/wx/static/logo.png" size="70"></u-avatar>
-			<text class="logo-title">运齐发储运通宝</text>
+			<text class="logo-title">运齐发仓储宝</text>
 		</view>
 		<view class="login-content">
 			<u-tabs :list="tabData" :scrollable="false" lineHeight="5" @click="tabClick"></u-tabs>
@@ -15,14 +15,14 @@
 				<u-icon name="account" color="#000000" size="20"></u-icon>
 			</view>
 			<view class="input-box" style="margin-top: 20rpx;">
-				<u--input v-model="mobile" placeholder="请输入您的账号" shape="circle" border="none"></u--input>
+				<u--input v-model="Mobile" placeholder="请输入您的账号" shape="circle" border="none"></u--input>
 			</view>
 			<view class="flexs label-box">
 				<u-icon name="lock-open" color="#000000" size="20"></u-icon>
 				<text class="input-label">密码</text>
 			</view>
 			<view class="input-box">
-				<u--input type="password" v-model="password" placeholder="请输入您的密码" shape="circle"
+				<u--input type="password" v-model="Password" placeholder="请输入您的密码" shape="circle"
 					border="none"></u--input>
 			</view>
 		</view>
@@ -36,15 +36,15 @@
 </template>
 
 <script>
-	import Qs from 'qs'
-	import {
-		tLogin
-	} from '@/pages_sub/api/transport.js'
-
-
 	export default {
 		data() {
 			return {
+				// 库管：stock_supervisor
+				// 仓储主管：storage_supervisor
+				// 客服主管：service_supervisor
+				// 普通用户：'common'
+				// 超管 admin
+				// 商户 customer
 				tabData: [{
 						name: '货主'
 					},
@@ -58,42 +58,51 @@
 						name: '管理人员'
 					}
 				],
-				mobile: '15584509795',
-				password: 'YZ123456.',
+				Mobile: '15584509795',
+				Password: 'YZ123456.',
 			};
 		},
 		onLoad() {
-			// const userInfo = uni.getStorageSync('t_user_info');
-			// this.mobile = userInfo?.mobile || ''
+			// const userInfo = uni.getStorageSync('user_info');
+			// this.Mobile = userInfo?.user?.Mobile || ''
 		},
 		methods: {
 			tabClick() {
-				this.mobile = ''
-				this.password = ''
+				this.Mobile = ''
+				this.Password = ''
 			},
 			login() {
-				if (!this.mobile) return uni.showToast({
+				if (!this.Mobile) return uni.showToast({
 					title: '请输入您的账号',
 					icon: 'none'
 				});
-				if (!this.password) return uni.showToast({
+				if (!this.Password) return uni.showToast({
 					title: '请输入密码',
 					icon: 'none'
 				});
 
-				tLogin(Qs.stringify({
-					Mobile: this.mobile,
-					Password: this.password,
-				})).then(({
-					data
-				}) => {
-					if (!data) return
-					uni.setStorageSync('t_user_info', {
-						userName: data.userName,
-						mobile: this.mobile,
-						userRole: data.userRole,
-					});
-					uni.navigateBack()
+				uni.$u.http.post(`https://yqfcyt.com/PetroCarRentPlatform/system/doLogin`, null, {
+					data: {
+						Mobile: this.Mobile,
+						Password: this.Password,
+					},
+					custom: {
+						auth: false
+					},
+					header: {
+						"Content-Type": "application/x-www-form-urlencoded"
+					}
+				}).then(res => {
+					console.log(1112, res);
+					// uni.setStorageSync('token', data.token);
+					if (res.state === "SUCCESS") {
+						uni.setStorageSync('t_user_info', res.data)
+						setTimeout(() => {
+							uni.switchTab({
+								url: '/pages/index/index'
+							});
+						}, 600)
+					}
 				})
 			}
 		}

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "经营看板",
+  "usingComponents": {
+    "u-status-bar": "/uni_modules/uview-ui/components/u-status-bar/u-status-bar",
+    "u-tag": "/uni_modules/uview-ui/components/u-tag/u-tag",
+    "u-count-to": "/uni_modules/uview-ui/components/u-count-to/u-count-to",
+    "u-safe-bottom": "/uni_modules/uview-ui/components/u-safe-bottom/u-safe-bottom"
+  }
+}

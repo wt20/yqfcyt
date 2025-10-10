@@ -19325,8 +19325,9 @@ exports.default = _default;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(uni) {// 请求js
-
+/* WEBPACK VAR INJECTION */(function(uni) {var _toConsumableArray = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18);
+// 请求js
+var cookies = [];
 uni.$u.http.setConfig(function (config) {
   /* config 为默认全局配置*/
   config.baseURL = "https://yqfcyt.com/pro-api/"; /* 根域名 */
@@ -19345,6 +19346,10 @@ uni.$u.http.interceptors.request.use(function (config) {
   if (config.custom.loading) {
     uni.showLoading();
   }
+  var tCookie = uni.getStorageSync('t_cookie') || [];
+  if (tCookie !== null && tCookie !== void 0 && tCookie.length) {
+    config.header.cookie = tCookie.join(';');
+  }
   return config;
 }, function (config) {
   // 可使用async await 做异步操作
@@ -19353,7 +19358,11 @@ uni.$u.http.interceptors.request.use(function (config) {
 
 // 响应拦截
 uni.$u.http.interceptors.response.use(function (response) {
-  var _response$data, _response$data$msg, _response$data2;
+  var _response$cookies, _response$data, _response$data$msg, _response$data2;
+  if ((_response$cookies = response.cookies) !== null && _response$cookies !== void 0 && _response$cookies.length) {
+    var tCookie = uni.getStorageSync('t_cookie') || [];
+    uni.setStorageSync('t_cookie', _toConsumableArray(response.cookies));
+  }
   try {
     var _uni;
     (_uni = uni) === null || _uni === void 0 ? void 0 : _uni.hideLoading();
@@ -19411,7 +19420,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isOwnerDp = exports.isEmpty = exports.formatPast = exports.formatDateLL = exports.createUUID = exports.base64ToFile = void 0;
+exports.isOwnerDp = exports.isEmpty = exports.formatPast = exports.formatDateLL = exports.createUUID = exports.bindData = exports.base64ToFile = void 0;
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 // 公共js
 
@@ -19517,6 +19526,22 @@ var isEmpty = function isEmpty(val) {
   return !val && val !== 0;
 };
 exports.isEmpty = isEmpty;
+var bindData = function bindData(modal, data) {
+  for (var key in modal) {
+    if (modal.hasOwnProperty(key) && data.hasOwnProperty(key)) {
+      if (!isEmpty(data[key])) {
+        modal[key] = data[key];
+        // console.log(key);
+        // if(Object.prototype.toString.call(modal[key]) === '[object Object]') {
+        // 	bindData(modal[key], data[key])
+        // }else modal[key] = data[key]
+      }
+    }
+  }
+
+  return modal;
+};
+exports.bindData = bindData;
 var base64ToFile = function base64ToFile(base64data, cb) {
   var fsm = uni.getFileSystemManager();
   var FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名
@@ -19814,6 +19839,314 @@ function _default() {
 /* 182 */,
 /* 183 */,
 /* 184 */
+/*!**********************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/pages_sub/api/transport.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.tLogin = exports.ordersUpdate = exports.ordersFilter = exports.ordersCreate = exports.orderStatusUpdate = exports.getItemList = exports.getDriverTransportOrder = exports.getCustomerList = exports.getAreaList = void 0;
+var baseUrl = 'https://yqfcyt.com/PetroCarRentPlatform';
+
+// 登录
+var tLogin = function tLogin(data) {
+  return uni.$u.http.request({
+    method: 'POST',
+    url: "".concat(baseUrl, "/system/doLogin"),
+    data: data,
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+};
+
+// 查询货物列表（创建订单下拉列表）
+exports.tLogin = tLogin;
+var getItemList = function getItemList(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/item/getItemList"), null, {
+    data: data
+  });
+};
+
+// 查询客户列表（创建订单下拉列表）
+exports.getItemList = getItemList;
+var getCustomerList = function getCustomerList(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/customer/getCustomerList"), null, {
+    data: data
+  });
+};
+
+// 查询区域地址列表（创建订单下拉列表）
+exports.getCustomerList = getCustomerList;
+var getAreaList = function getAreaList(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/area/getAreaList"), null, {
+    data: data
+  });
+};
+
+// 新增订单
+exports.getAreaList = getAreaList;
+var ordersCreate = function ordersCreate(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/api/orders/create"), null, {
+    data: data
+  });
+};
+
+// 修改订单
+exports.ordersCreate = ordersCreate;
+var ordersUpdate = function ordersUpdate(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/api/orders/update"), null, {
+    data: data
+  });
+};
+
+// 查询订单列表
+exports.ordersUpdate = ordersUpdate;
+var ordersFilter = function ordersFilter(data) {
+  return uni.$u.http.get("".concat(baseUrl, "/api/orders/filter"), {
+    params: data
+  });
+};
+
+// 查询派给我的订单列表
+exports.ordersFilter = ordersFilter;
+var getDriverTransportOrder = function getDriverTransportOrder(data) {
+  return uni.$u.http.get("".concat(baseUrl, "/api/orders/getDriverTransportOrder"), {
+    params: data
+  });
+};
+
+// 修改订单状态
+exports.getDriverTransportOrder = getDriverTransportOrder;
+var orderStatusUpdate = function orderStatusUpdate(data) {
+  return uni.$u.http.post("".concat(baseUrl, "/api/orderStatus/wx/update"), null, {
+    data: data
+  });
+};
+exports.orderStatusUpdate = orderStatusUpdate;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 185 */
+/*!*****************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/node_modules/image-tools/index.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(wx) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.base64ToPath = base64ToPath;
+exports.pathToBase64 = pathToBase64;
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+function getLocalFilePath(path) {
+  if (path.indexOf('_www') === 0 || path.indexOf('_doc') === 0 || path.indexOf('_documents') === 0 || path.indexOf('_downloads') === 0) {
+    return path;
+  }
+  if (path.indexOf('file://') === 0) {
+    return path;
+  }
+  if (path.indexOf('/storage/emulated/0/') === 0) {
+    return path;
+  }
+  if (path.indexOf('/') === 0) {
+    var localFilePath = plus.io.convertAbsoluteFileSystem(path);
+    if (localFilePath !== path) {
+      return localFilePath;
+    } else {
+      path = path.substr(1);
+    }
+  }
+  return '_www/' + path;
+}
+function dataUrlToBase64(str) {
+  var array = str.split(',');
+  return array[array.length - 1];
+}
+var index = 0;
+function getNewFileId() {
+  return Date.now() + String(index++);
+}
+function biggerThan(v1, v2) {
+  var v1Array = v1.split('.');
+  var v2Array = v2.split('.');
+  var update = false;
+  for (var index = 0; index < v2Array.length; index++) {
+    var diff = v1Array[index] - v2Array[index];
+    if (diff !== 0) {
+      update = diff > 0;
+      break;
+    }
+  }
+  return update;
+}
+function pathToBase64(path) {
+  return new Promise(function (resolve, reject) {
+    if ((typeof window === "undefined" ? "undefined" : (0, _typeof2.default)(window)) === 'object' && 'document' in window) {
+      if (typeof FileReader === 'function') {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', path, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function () {
+          if (this.status === 200) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+              resolve(e.target.result);
+            };
+            fileReader.onerror = reject;
+            fileReader.readAsDataURL(this.response);
+          }
+        };
+        xhr.onerror = reject;
+        xhr.send();
+        return;
+      }
+      var canvas = document.createElement('canvas');
+      var c2x = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        c2x.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL());
+        canvas.height = canvas.width = 0;
+      };
+      img.onerror = reject;
+      img.src = path;
+      return;
+    }
+    if ((typeof plus === "undefined" ? "undefined" : (0, _typeof2.default)(plus)) === 'object') {
+      plus.io.resolveLocalFileSystemURL(getLocalFilePath(path), function (entry) {
+        entry.file(function (file) {
+          var fileReader = new plus.io.FileReader();
+          fileReader.onload = function (data) {
+            resolve(data.target.result);
+          };
+          fileReader.onerror = function (error) {
+            reject(error);
+          };
+          fileReader.readAsDataURL(file);
+        }, function (error) {
+          reject(error);
+        });
+      }, function (error) {
+        reject(error);
+      });
+      return;
+    }
+    if ((typeof wx === "undefined" ? "undefined" : (0, _typeof2.default)(wx)) === 'object' && wx.canIUse('getFileSystemManager')) {
+      wx.getFileSystemManager().readFile({
+        filePath: path,
+        encoding: 'base64',
+        success: function success(res) {
+          resolve('data:image/png;base64,' + res.data);
+        },
+        fail: function fail(error) {
+          reject(error);
+        }
+      });
+      return;
+    }
+    reject(new Error('not support'));
+  });
+}
+function base64ToPath(base64) {
+  return new Promise(function (resolve, reject) {
+    if ((typeof window === "undefined" ? "undefined" : (0, _typeof2.default)(window)) === 'object' && 'document' in window) {
+      base64 = base64.split(',');
+      var type = base64[0].match(/:(.*?);/)[1];
+      var str = atob(base64[1]);
+      var n = str.length;
+      var array = new Uint8Array(n);
+      while (n--) {
+        array[n] = str.charCodeAt(n);
+      }
+      return resolve((window.URL || window.webkitURL).createObjectURL(new Blob([array], {
+        type: type
+      })));
+    }
+    var extName = base64.split(',')[0].match(/data\:\S+\/(\S+);/);
+    if (extName) {
+      extName = extName[1];
+    } else {
+      reject(new Error('base64 error'));
+    }
+    var fileName = getNewFileId() + '.' + extName;
+    if ((typeof plus === "undefined" ? "undefined" : (0, _typeof2.default)(plus)) === 'object') {
+      var basePath = '_doc';
+      var dirPath = 'uniapp_temp';
+      var filePath = basePath + '/' + dirPath + '/' + fileName;
+      if (!biggerThan(plus.os.name === 'Android' ? '1.9.9.80627' : '1.9.9.80472', plus.runtime.innerVersion)) {
+        plus.io.resolveLocalFileSystemURL(basePath, function (entry) {
+          entry.getDirectory(dirPath, {
+            create: true,
+            exclusive: false
+          }, function (entry) {
+            entry.getFile(fileName, {
+              create: true,
+              exclusive: false
+            }, function (entry) {
+              entry.createWriter(function (writer) {
+                writer.onwrite = function () {
+                  resolve(filePath);
+                };
+                writer.onerror = reject;
+                writer.seek(0);
+                writer.writeAsBinary(dataUrlToBase64(base64));
+              }, reject);
+            }, reject);
+          }, reject);
+        }, reject);
+        return;
+      }
+      var bitmap = new plus.nativeObj.Bitmap(fileName);
+      bitmap.loadBase64Data(base64, function () {
+        bitmap.save(filePath, {}, function () {
+          bitmap.clear();
+          resolve(filePath);
+        }, function (error) {
+          bitmap.clear();
+          reject(error);
+        });
+      }, function (error) {
+        bitmap.clear();
+        reject(error);
+      });
+      return;
+    }
+    if ((typeof wx === "undefined" ? "undefined" : (0, _typeof2.default)(wx)) === 'object' && wx.canIUse('getFileSystemManager')) {
+      var filePath = wx.env.USER_DATA_PATH + '/' + fileName;
+      wx.getFileSystemManager().writeFile({
+        filePath: filePath,
+        data: dataUrlToBase64(base64),
+        encoding: 'base64',
+        success: function success() {
+          resolve(filePath);
+        },
+        fail: function fail(error) {
+          reject(error);
+        }
+      });
+      return;
+    }
+    reject(new Error('not support'));
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
+
+/***/ }),
+/* 186 */
 /*!***********************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/utils/qqmap-wx-jssdk.min.js ***!
   \***********************************************************************************/
@@ -20726,15 +21059,15 @@ module.exports = QQMapWX;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 185 */,
-/* 186 */,
 /* 187 */,
 /* 188 */,
 /* 189 */,
 /* 190 */,
 /* 191 */,
 /* 192 */,
-/* 193 */
+/* 193 */,
+/* 194 */,
+/* 195 */
 /*!**********************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/utils/const.js ***!
   \**********************************************************************/
@@ -20744,236 +21077,13 @@ module.exports = QQMapWX;
 // 常量js
 
 /***/ }),
-/* 194 */,
-/* 195 */,
 /* 196 */,
 /* 197 */,
 /* 198 */,
 /* 199 */,
 /* 200 */,
 /* 201 */,
-/* 202 */
-/*!**********************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/pages_sub/api/transport.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.tLogin = exports.ordersUpdate = exports.ordersFilter = exports.ordersCreate = exports.orderStatusUpdate = exports.getItemList = exports.getDriverTransportOrder = exports.getCustomerList = exports.getAreaList = void 0;
-var baseUrl = 'https://yqfcyt.com/PetroCarRentPlatform';
-
-// 登录
-var tLogin = function tLogin(data) {
-  return uni.$u.http.request({
-    method: 'POST',
-    url: "".concat(baseUrl, "/system/doLogin"),
-    data: data,
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    }
-  });
-};
-
-// 查询货物列表（创建订单下拉列表）
-exports.tLogin = tLogin;
-var getItemList = function getItemList(data) {
-  // return uni.$u.http.post(`${baseUrl}/item/getItemList`, null, {
-  // 	data: data,
-  // })
-  // return uni.$u.http.request({
-  // 	method: 'POST',
-  // 	url: `${baseUrl}/item/getItemList`,
-  // 	data,
-  // 	header: {
-  // 		'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-  // 	}
-  // })
-
-  return {
-    "page": 1,
-    "records": 7,
-    "rows": [{
-      "createTime": "2025-08-14 16:10:26",
-      "delFlag": 0,
-      "id": 7,
-      "itemModel": "低压2911",
-      "itemName": "中油抚顺低压2911",
-      "itemNo": "HP0864",
-      "label": "",
-      "packaging": "",
-      "productionPlace": "中油抚顺",
-      "remark": "",
-      "specification": "25KG",
-      "type": "普货",
-      "unitVolume": "",
-      "unitWeight": "25",
-      "updateTime": "2025-08-14 16:10:26"
-    }, {
-      "createTime": "2025-08-12 11:33:35",
-      "delFlag": 0,
-      "id": 6,
-      "itemModel": "低压23050 ",
-      "itemName": "兰化榆林低压23050 ",
-      "itemNo": "HP69563",
-      "label": "",
-      "packaging": "",
-      "productionPlace": "中油兰化榆林",
-      "remark": "",
-      "specification": "",
-      "type": "",
-      "unitVolume": "",
-      "unitWeight": "50",
-      "updateTime": "2025-08-13 09:45:09"
-    }, {
-      "createTime": "2025-08-12 11:15:49",
-      "delFlag": 0,
-      "id": 5,
-      "itemModel": "2426H",
-      "itemName": "聚乙烯新疆2426H",
-      "itemNo": "HP87462",
-      "label": "普货",
-      "packaging": "塑料袋",
-      "productionPlace": "新疆",
-      "remark": "",
-      "specification": "25KG",
-      "type": "",
-      "unitVolume": "",
-      "unitWeight": "25",
-      "updateTime": "2025-08-12 11:15:49"
-    }, {
-      "createTime": "2025-08-12 10:21:50",
-      "delFlag": 0,
-      "id": 4,
-      "itemModel": "",
-      "itemName": "7042",
-      "itemNo": "7042",
-      "label": "",
-      "packaging": "",
-      "productionPlace": "",
-      "remark": "",
-      "specification": "",
-      "type": "",
-      "unitVolume": "",
-      "unitWeight": "25",
-      "updateTime": "2025-08-12 10:21:50"
-    }, {
-      "createTime": "2025-08-01 14:50:56",
-      "delFlag": 0,
-      "id": 3,
-      "itemModel": "EP533N ",
-      "itemName": "聚丙烯兰化EP533N",
-      "itemNo": "HP7686",
-      "label": "",
-      "packaging": "塑料袋",
-      "productionPlace": "中油兰州石化",
-      "remark": "",
-      "specification": "25KG",
-      "type": "普货",
-      "unitVolume": "",
-      "unitWeight": "25",
-      "updateTime": "2025-08-12 11:15:04"
-    }, {
-      "createTime": "2025-07-31 10:39:22",
-      "delFlag": 0,
-      "id": 2,
-      "itemModel": "针状（中性无字包装）",
-      "itemName": "阴离子型有机表面活性剂江苏十二烷基硫酸钠",
-      "itemNo": "HP151",
-      "label": "",
-      "packaging": "纸塑复合袋",
-      "productionPlace": "江苏",
-      "remark": "",
-      "specification": "25KG",
-      "type": "普货",
-      "unitVolume": "",
-      "unitWeight": "25",
-      "updateTime": "2025-07-31 10:39:22"
-    }, {
-      "createTime": "2025-07-31 09:50:21",
-      "delFlag": 0,
-      "id": 1,
-      "itemModel": "1810D",
-      "itemName": "聚乙烯新疆1810D",
-      "itemNo": "HP157",
-      "label": "",
-      "packaging": "塑料袋",
-      "productionPlace": "新疆",
-      "remark": "",
-      "specification": "25KG",
-      "type": "普货",
-      "unitVolume": "",
-      "unitWeight": "",
-      "updateTime": "2025-08-12 11:14:43"
-    }],
-    "total": 1
-  };
-};
-
-// 查询客户列表（创建订单下拉列表）
-exports.getItemList = getItemList;
-var getCustomerList = function getCustomerList(data) {
-  return uni.$u.http.post("".concat(baseUrl, "/customer/getCustomerList"), null, {
-    data: data
-  });
-};
-
-// 查询区域地址列表（创建订单下拉列表）
-exports.getCustomerList = getCustomerList;
-var getAreaList = function getAreaList(data) {
-  return uni.$u.http.post("".concat(baseUrl, "/area/getAreaList"), null, {
-    data: data
-  });
-};
-
-// 新增订单
-exports.getAreaList = getAreaList;
-var ordersCreate = function ordersCreate(data) {
-  return uni.$u.http.post("".concat(baseUrl, "/api/orders/create"), null, {
-    data: data
-  });
-};
-
-// 修改订单
-exports.ordersCreate = ordersCreate;
-var ordersUpdate = function ordersUpdate(data) {
-  return uni.$u.http.post("".concat(baseUrl, "/api/orders/update"), null, {
-    data: data
-  });
-};
-
-// 查询订单列表
-exports.ordersUpdate = ordersUpdate;
-var ordersFilter = function ordersFilter(data) {
-  return uni.$u.http.get("".concat(baseUrl, "/api/orders/filter"), {
-    params: data
-  });
-};
-
-// 查询派给我的订单列表
-exports.ordersFilter = ordersFilter;
-var getDriverTransportOrder = function getDriverTransportOrder(data) {
-  return uni.$u.http.get("".concat(baseUrl, "/api/orders/getDriverTransportOrder"), {
-    params: data
-  });
-};
-
-// 修改订单状态
-exports.getDriverTransportOrder = getDriverTransportOrder;
-var orderStatusUpdate = function orderStatusUpdate(data) {
-  return uni.$u.http.post("".concat(baseUrl, "/api/orderStatus/wx/update"), null, {
-    data: data
-  });
-};
-exports.orderStatusUpdate = orderStatusUpdate;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
+/* 202 */,
 /* 203 */,
 /* 204 */,
 /* 205 */,
@@ -21155,7 +21265,16 @@ exports.orderStatusUpdate = orderStatusUpdate;
 /* 381 */,
 /* 382 */,
 /* 383 */,
-/* 384 */
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-status-bar/props.js ***!
   \*************************************************************************************************************/
@@ -21181,14 +21300,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-icon/icons.js ***!
   \*******************************************************************************************************/
@@ -21419,7 +21538,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 393 */
+/* 402 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-icon/props.js ***!
   \*******************************************************************************************************/
@@ -21526,14 +21645,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-navbar/props.js ***!
   \*********************************************************************************************************/
@@ -21635,14 +21754,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-avatar/props.js ***!
   \*********************************************************************************************************/
@@ -21738,14 +21857,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-cell-group/props.js ***!
   \*************************************************************************************************************/
@@ -21777,14 +21896,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-cell/props.js ***!
   \*******************************************************************************************************/
@@ -21912,14 +22031,14 @@ exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-form/props.js ***!
   \*******************************************************************************************************/
@@ -21982,12 +22101,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */
 /*!************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-form-item/props.js ***!
   \************************************************************************************************************/
@@ -22053,14 +22172,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-input/props.js ***!
   \********************************************************************************************************/
@@ -22265,12 +22384,332 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */
+/*!*********************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/utils.js ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.chooseFile = chooseFile;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function pickExclude(obj, keys) {
+  // 某些情况下，type可能会为
+  if (!['[object Object]', '[object File]'].includes(Object.prototype.toString.call(obj))) {
+    return {};
+  }
+  return Object.keys(obj).reduce(function (prev, key) {
+    if (!keys.includes(key)) {
+      prev[key] = obj[key];
+    }
+    return prev;
+  }, {});
+}
+function formatImage(res) {
+  return res.tempFiles.map(function (item) {
+    return _objectSpread(_objectSpread({}, pickExclude(item, ['path'])), {}, {
+      type: 'image',
+      url: item.path,
+      thumb: item.path,
+      size: item.size
+    });
+  });
+}
+function formatVideo(res) {
+  return [_objectSpread(_objectSpread({}, pickExclude(res, ['tempFilePath', 'thumbTempFilePath', 'errMsg'])), {}, {
+    type: 'video',
+    url: res.tempFilePath,
+    thumb: res.thumbTempFilePath,
+    size: res.size
+  })];
+}
+function formatMedia(res) {
+  return res.tempFiles.map(function (item) {
+    return _objectSpread(_objectSpread({}, pickExclude(item, ['fileType', 'thumbTempFilePath', 'tempFilePath'])), {}, {
+      type: res.type,
+      url: item.tempFilePath,
+      thumb: res.type === 'video' ? item.thumbTempFilePath : item.tempFilePath,
+      size: item.size
+    });
+  });
+}
+function formatFile(res) {
+  return res.tempFiles.map(function (item) {
+    return _objectSpread(_objectSpread({}, pickExclude(item, ['path'])), {}, {
+      url: item.path,
+      size: item.size
+    });
+  });
+}
+function chooseFile(_ref) {
+  var accept = _ref.accept,
+    multiple = _ref.multiple,
+    capture = _ref.capture,
+    compressed = _ref.compressed,
+    maxDuration = _ref.maxDuration,
+    sizeType = _ref.sizeType,
+    camera = _ref.camera,
+    maxCount = _ref.maxCount;
+  return new Promise(function (resolve, reject) {
+    switch (accept) {
+      case 'image':
+        uni.chooseImage({
+          count: multiple ? Math.min(maxCount, 9) : 1,
+          sourceType: capture,
+          sizeType: sizeType,
+          success: function success(res) {
+            return resolve(formatImage(res));
+          },
+          fail: reject
+        });
+        break;
+
+      // 只有微信小程序才支持chooseMedia接口
+      case 'media':
+        wx.chooseMedia({
+          count: multiple ? Math.min(maxCount, 9) : 1,
+          sourceType: capture,
+          maxDuration: maxDuration,
+          sizeType: sizeType,
+          camera: camera,
+          success: function success(res) {
+            return resolve(formatMedia(res));
+          },
+          fail: reject
+        });
+        break;
+      case 'video':
+        uni.chooseVideo({
+          sourceType: capture,
+          compressed: compressed,
+          maxDuration: maxDuration,
+          camera: camera,
+          success: function success(res) {
+            return resolve(formatVideo(res));
+          },
+          fail: reject
+        });
+        break;
+
+      // 只有微信小程序才支持chooseMessageFile接口
+      case 'file':
+        wx.chooseMessageFile({
+          count: multiple ? maxCount : 1,
+          type: accept,
+          success: function success(res) {
+            return resolve(formatFile(res));
+          },
+          fail: reject
+        });
+        break;
+      default:
+        // 此为保底选项，在accept不为上面任意一项的时候选取全部文件
+
+        wx.chooseMessageFile({
+          count: multiple ? maxCount : 1,
+          type: 'all',
+          success: function success(res) {
+            return resolve(formatFile(res));
+          },
+          fail: reject
+        });
+    }
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
+
+/***/ }),
+/* 463 */
+/*!*********************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/mixin.js ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  watch: {
+    // 监听accept的变化，判断是否符合个平台要求
+    // 只有微信小程序才支持选择媒体，文件类型，所以这里做一个判断提示
+    accept: {
+      immediate: true,
+      handler: function handler(val) {}
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 464 */
+/*!*********************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/props.js ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 接受的文件类型, 可选值为all media image file video
+    accept: {
+      type: String,
+      default: uni.$u.props.upload.accept
+    },
+    // 	图片或视频拾取模式，当accept为image类型时设置capture可选额外camera可以直接调起摄像头
+    capture: {
+      type: [String, Array],
+      default: uni.$u.props.upload.capture
+    },
+    // 当accept为video时生效，是否压缩视频，默认为true
+    compressed: {
+      type: Boolean,
+      default: uni.$u.props.upload.compressed
+    },
+    // 当accept为video时生效，可选值为back或front
+    camera: {
+      type: String,
+      default: uni.$u.props.upload.camera
+    },
+    // 当accept为video时生效，拍摄视频最长拍摄时间，单位秒
+    maxDuration: {
+      type: Number,
+      default: uni.$u.props.upload.maxDuration
+    },
+    // 上传区域的图标，只能内置图标
+    uploadIcon: {
+      type: String,
+      default: uni.$u.props.upload.uploadIcon
+    },
+    // 上传区域的图标的颜色，默认
+    uploadIconColor: {
+      type: String,
+      default: uni.$u.props.upload.uploadIconColor
+    },
+    // 是否开启文件读取前事件
+    useBeforeRead: {
+      type: Boolean,
+      default: uni.$u.props.upload.useBeforeRead
+    },
+    // 读取后的处理函数
+    afterRead: {
+      type: Function,
+      default: null
+    },
+    // 读取前的处理函数
+    beforeRead: {
+      type: Function,
+      default: null
+    },
+    // 是否显示组件自带的图片预览功能
+    previewFullImage: {
+      type: Boolean,
+      default: uni.$u.props.upload.previewFullImage
+    },
+    // 最大上传数量
+    maxCount: {
+      type: [String, Number],
+      default: uni.$u.props.upload.maxCount
+    },
+    // 是否启用
+    disabled: {
+      type: Boolean,
+      default: uni.$u.props.upload.disabled
+    },
+    // 预览上传的图片时的裁剪模式，和image组件mode属性一致
+    imageMode: {
+      type: String,
+      default: uni.$u.props.upload.imageMode
+    },
+    // 标识符，可以在回调函数的第二项参数中获取
+    name: {
+      type: String,
+      default: uni.$u.props.upload.name
+    },
+    // 所选的图片的尺寸, 可选值为original compressed
+    sizeType: {
+      type: Array,
+      default: uni.$u.props.upload.sizeType
+    },
+    // 是否开启图片多选，部分安卓机型不支持
+    multiple: {
+      type: Boolean,
+      default: uni.$u.props.upload.multiple
+    },
+    // 是否展示删除按钮
+    deletable: {
+      type: Boolean,
+      default: uni.$u.props.upload.deletable
+    },
+    // 文件大小限制，单位为byte
+    maxSize: {
+      type: [String, Number],
+      default: uni.$u.props.upload.maxSize
+    },
+    // 显示已上传的文件列表
+    fileList: {
+      type: Array,
+      default: uni.$u.props.upload.fileList
+    },
+    // 上传区域的提示文字
+    uploadText: {
+      type: String,
+      default: uni.$u.props.upload.uploadText
+    },
+    // 内部预览图片区域和选择图片按钮的区域宽度
+    width: {
+      type: [String, Number],
+      default: uni.$u.props.upload.width
+    },
+    // 内部预览图片区域和选择图片按钮的区域高度
+    height: {
+      type: [String, Number],
+      default: uni.$u.props.upload.height
+    },
+    // 是否在上传完成后展示预览图
+    previewImage: {
+      type: Boolean,
+      default: uni.$u.props.upload.previewImage
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-number-box/props.js ***!
   \*************************************************************************************************************/
@@ -22397,14 +22836,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-tabs/props.js ***!
   \*******************************************************************************************************/
@@ -22486,14 +22925,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */,
+/* 488 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-swiper/props.js ***!
   \*********************************************************************************************************/
@@ -22636,14 +23075,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-textarea/props.js ***!
   \***********************************************************************************************************/
@@ -22780,12 +23219,270 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */
+/*!*************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/mixin/button.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    lang: String,
+    sessionFrom: String,
+    sendMessageTitle: String,
+    sendMessagePath: String,
+    sendMessageImg: String,
+    showMessageCard: Boolean,
+    appParameter: String,
+    formType: String,
+    openType: String
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 503 */
+/*!***************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/mixin/openType.js ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    openType: String
+  },
+  methods: {
+    onGetUserInfo: function onGetUserInfo(event) {
+      this.$emit('getuserinfo', event.detail);
+    },
+    onContact: function onContact(event) {
+      this.$emit('contact', event.detail);
+    },
+    onGetPhoneNumber: function onGetPhoneNumber(event) {
+      this.$emit('getphonenumber', event.detail);
+    },
+    onError: function onError(event) {
+      this.$emit('error', event.detail);
+    },
+    onLaunchApp: function onLaunchApp(event) {
+      this.$emit('launchapp', event.detail);
+    },
+    onOpenSetting: function onOpenSetting(event) {
+      this.$emit('opensetting', event.detail);
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 504 */
+/*!*********************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-button/props.js ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-16 10:04:04
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-16 10:04:24
+ * @FilePath     : /u-view2.0/uview-ui/components/u-button/props.js
+ */
+var _default = {
+  props: {
+    // 是否细边框
+    hairline: {
+      type: Boolean,
+      default: uni.$u.props.button.hairline
+    },
+    // 按钮的预置样式，info，primary，error，warning，success
+    type: {
+      type: String,
+      default: uni.$u.props.button.type
+    },
+    // 按钮尺寸，large，normal，small，mini
+    size: {
+      type: String,
+      default: uni.$u.props.button.size
+    },
+    // 按钮形状，circle（两边为半圆），square（带圆角）
+    shape: {
+      type: String,
+      default: uni.$u.props.button.shape
+    },
+    // 按钮是否镂空
+    plain: {
+      type: Boolean,
+      default: uni.$u.props.button.plain
+    },
+    // 是否禁止状态
+    disabled: {
+      type: Boolean,
+      default: uni.$u.props.button.disabled
+    },
+    // 是否加载中
+    loading: {
+      type: Boolean,
+      default: uni.$u.props.button.loading
+    },
+    // 加载中提示文字
+    loadingText: {
+      type: [String, Number],
+      default: uni.$u.props.button.loadingText
+    },
+    // 加载状态图标类型
+    loadingMode: {
+      type: String,
+      default: uni.$u.props.button.loadingMode
+    },
+    // 加载图标大小
+    loadingSize: {
+      type: [String, Number],
+      default: uni.$u.props.button.loadingSize
+    },
+    // 开放能力，具体请看uniapp稳定关于button组件部分说明
+    // https://uniapp.dcloud.io/component/button
+    openType: {
+      type: String,
+      default: uni.$u.props.button.openType
+    },
+    // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
+    // 取值为submit（提交表单），reset（重置表单）
+    formType: {
+      type: String,
+      default: uni.$u.props.button.formType
+    },
+    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
+    // 只微信小程序、QQ小程序有效
+    appParameter: {
+      type: String,
+      default: uni.$u.props.button.appParameter
+    },
+    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
+    hoverStopPropagation: {
+      type: Boolean,
+      default: uni.$u.props.button.hoverStopPropagation
+    },
+    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
+    lang: {
+      type: String,
+      default: uni.$u.props.button.lang
+    },
+    // 会话来源，open-type="contact"时有效。只微信小程序有效
+    sessionFrom: {
+      type: String,
+      default: uni.$u.props.button.sessionFrom
+    },
+    // 会话内消息卡片标题，open-type="contact"时有效
+    // 默认当前标题，只微信小程序有效
+    sendMessageTitle: {
+      type: String,
+      default: uni.$u.props.button.sendMessageTitle
+    },
+    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
+    // 默认当前分享路径，只微信小程序有效
+    sendMessagePath: {
+      type: String,
+      default: uni.$u.props.button.sendMessagePath
+    },
+    // 会话内消息卡片图片，open-type="contact"时有效
+    // 默认当前页面截图，只微信小程序有效
+    sendMessageImg: {
+      type: String,
+      default: uni.$u.props.button.sendMessageImg
+    },
+    // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
+    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
+    showMessageCard: {
+      type: Boolean,
+      default: uni.$u.props.button.showMessageCard
+    },
+    // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
+    dataName: {
+      type: String,
+      default: uni.$u.props.button.dataName
+    },
+    // 节流，一定时间内只能触发一次
+    throttleTime: {
+      type: [String, Number],
+      default: uni.$u.props.button.throttleTime
+    },
+    // 按住后多久出现点击态，单位毫秒
+    hoverStartTime: {
+      type: [String, Number],
+      default: uni.$u.props.button.hoverStartTime
+    },
+    // 手指松开后点击态保留时间，单位毫秒
+    hoverStayTime: {
+      type: [String, Number],
+      default: uni.$u.props.button.hoverStayTime
+    },
+    // 按钮文字，之所以通过props传入，是因为slot传入的话
+    // nvue中无法控制文字的样式
+    text: {
+      type: [String, Number],
+      default: uni.$u.props.button.text
+    },
+    // 按钮图标
+    icon: {
+      type: String,
+      default: uni.$u.props.button.icon
+    },
+    // 按钮图标
+    iconColor: {
+      type: String,
+      default: uni.$u.props.button.icon
+    },
+    // 按钮颜色，支持传入linear-gradient渐变色
+    color: {
+      type: String,
+      default: uni.$u.props.button.color
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-picker/props.js ***!
   \*********************************************************************************************************/
@@ -22882,19 +23579,19 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */,
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-list/props.js ***!
   \*******************************************************************************************************/
@@ -22987,14 +23684,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */,
-/* 501 */,
-/* 502 */,
-/* 503 */,
-/* 504 */
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */
 /*!************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-list-item/props.js ***!
   \************************************************************************************************************/
@@ -23021,14 +23718,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 505 */,
-/* 506 */,
-/* 507 */,
-/* 508 */,
-/* 509 */,
-/* 510 */,
-/* 511 */,
-/* 512 */
+/* 534 */,
+/* 535 */,
+/* 536 */,
+/* 537 */,
+/* 538 */,
+/* 539 */,
+/* 540 */,
+/* 541 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-loadmore/props.js ***!
   \***********************************************************************************************************/
@@ -23140,14 +23837,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */
+/* 542 */,
+/* 543 */,
+/* 544 */,
+/* 545 */,
+/* 546 */,
+/* 547 */,
+/* 548 */,
+/* 549 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-empty/props.js ***!
   \********************************************************************************************************/
@@ -23224,21 +23921,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */
+/* 550 */,
+/* 551 */,
+/* 552 */,
+/* 553 */,
+/* 554 */,
+/* 555 */,
+/* 556 */,
+/* 557 */,
+/* 558 */,
+/* 559 */,
+/* 560 */,
+/* 561 */,
+/* 562 */,
+/* 563 */,
+/* 564 */
 /*!**************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \**************************************************************************************************************/
@@ -23258,14 +23955,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */
+/* 565 */,
+/* 566 */,
+/* 567 */,
+/* 568 */,
+/* 569 */,
+/* 570 */,
+/* 571 */,
+/* 572 */
 /*!*************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-transition/props.js ***!
   \*************************************************************************************************************/
@@ -23307,7 +24004,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 544 */
+/* 573 */
 /*!******************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-transition/transition.js ***!
   \******************************************************************************************************************/
@@ -23324,7 +24021,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 56));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 58));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 545));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 574));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -23416,7 +24113,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 545 */
+/* 574 */
 /*!********************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \********************************************************************************************************************/
@@ -23609,14 +24306,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */
+/* 575 */,
+/* 576 */,
+/* 577 */,
+/* 578 */,
+/* 579 */,
+/* 580 */,
+/* 581 */,
+/* 582 */
 /*!******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-tag/props.js ***!
   \******************************************************************************************************/
@@ -23718,21 +24415,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */,
-/* 568 */
+/* 583 */,
+/* 584 */,
+/* 585 */,
+/* 586 */,
+/* 587 */,
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */,
+/* 592 */,
+/* 593 */,
+/* 594 */,
+/* 595 */,
+/* 596 */,
+/* 597 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-badge/props.js ***!
   \********************************************************************************************************/
@@ -23822,14 +24519,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */,
-/* 576 */
+/* 598 */,
+/* 599 */,
+/* 600 */,
+/* 601 */,
+/* 602 */,
+/* 603 */,
+/* 604 */,
+/* 605 */
 /*!**************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-radio-group/props.js ***!
   \**************************************************************************************************************/
@@ -23931,14 +24628,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */
+/* 606 */,
+/* 607 */,
+/* 608 */,
+/* 609 */,
+/* 610 */,
+/* 611 */,
+/* 612 */,
+/* 613 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-radio/props.js ***!
   \********************************************************************************************************/
@@ -24020,14 +24717,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 585 */,
-/* 586 */,
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */,
-/* 592 */
+/* 614 */,
+/* 615 */,
+/* 616 */,
+/* 617 */,
+/* 618 */,
+/* 619 */,
+/* 620 */,
+/* 621 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-divider/props.js ***!
   \**********************************************************************************************************/
@@ -24089,272 +24786,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */,
-/* 600 */
-/*!*************************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/mixin/button.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    lang: String,
-    sessionFrom: String,
-    sendMessageTitle: String,
-    sendMessagePath: String,
-    sendMessageImg: String,
-    showMessageCard: Boolean,
-    appParameter: String,
-    formType: String,
-    openType: String
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 601 */
-/*!***************************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/mixin/openType.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    openType: String
-  },
-  methods: {
-    onGetUserInfo: function onGetUserInfo(event) {
-      this.$emit('getuserinfo', event.detail);
-    },
-    onContact: function onContact(event) {
-      this.$emit('contact', event.detail);
-    },
-    onGetPhoneNumber: function onGetPhoneNumber(event) {
-      this.$emit('getphonenumber', event.detail);
-    },
-    onError: function onError(event) {
-      this.$emit('error', event.detail);
-    },
-    onLaunchApp: function onLaunchApp(event) {
-      this.$emit('launchapp', event.detail);
-    },
-    onOpenSetting: function onOpenSetting(event) {
-      this.$emit('opensetting', event.detail);
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 602 */
-/*!*********************************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-button/props.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-16 10:04:04
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-16 10:04:24
- * @FilePath     : /u-view2.0/uview-ui/components/u-button/props.js
- */
-var _default = {
-  props: {
-    // 是否细边框
-    hairline: {
-      type: Boolean,
-      default: uni.$u.props.button.hairline
-    },
-    // 按钮的预置样式，info，primary，error，warning，success
-    type: {
-      type: String,
-      default: uni.$u.props.button.type
-    },
-    // 按钮尺寸，large，normal，small，mini
-    size: {
-      type: String,
-      default: uni.$u.props.button.size
-    },
-    // 按钮形状，circle（两边为半圆），square（带圆角）
-    shape: {
-      type: String,
-      default: uni.$u.props.button.shape
-    },
-    // 按钮是否镂空
-    plain: {
-      type: Boolean,
-      default: uni.$u.props.button.plain
-    },
-    // 是否禁止状态
-    disabled: {
-      type: Boolean,
-      default: uni.$u.props.button.disabled
-    },
-    // 是否加载中
-    loading: {
-      type: Boolean,
-      default: uni.$u.props.button.loading
-    },
-    // 加载中提示文字
-    loadingText: {
-      type: [String, Number],
-      default: uni.$u.props.button.loadingText
-    },
-    // 加载状态图标类型
-    loadingMode: {
-      type: String,
-      default: uni.$u.props.button.loadingMode
-    },
-    // 加载图标大小
-    loadingSize: {
-      type: [String, Number],
-      default: uni.$u.props.button.loadingSize
-    },
-    // 开放能力，具体请看uniapp稳定关于button组件部分说明
-    // https://uniapp.dcloud.io/component/button
-    openType: {
-      type: String,
-      default: uni.$u.props.button.openType
-    },
-    // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
-    // 取值为submit（提交表单），reset（重置表单）
-    formType: {
-      type: String,
-      default: uni.$u.props.button.formType
-    },
-    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
-    // 只微信小程序、QQ小程序有效
-    appParameter: {
-      type: String,
-      default: uni.$u.props.button.appParameter
-    },
-    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
-    hoverStopPropagation: {
-      type: Boolean,
-      default: uni.$u.props.button.hoverStopPropagation
-    },
-    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
-    lang: {
-      type: String,
-      default: uni.$u.props.button.lang
-    },
-    // 会话来源，open-type="contact"时有效。只微信小程序有效
-    sessionFrom: {
-      type: String,
-      default: uni.$u.props.button.sessionFrom
-    },
-    // 会话内消息卡片标题，open-type="contact"时有效
-    // 默认当前标题，只微信小程序有效
-    sendMessageTitle: {
-      type: String,
-      default: uni.$u.props.button.sendMessageTitle
-    },
-    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
-    // 默认当前分享路径，只微信小程序有效
-    sendMessagePath: {
-      type: String,
-      default: uni.$u.props.button.sendMessagePath
-    },
-    // 会话内消息卡片图片，open-type="contact"时有效
-    // 默认当前页面截图，只微信小程序有效
-    sendMessageImg: {
-      type: String,
-      default: uni.$u.props.button.sendMessageImg
-    },
-    // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
-    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
-    showMessageCard: {
-      type: Boolean,
-      default: uni.$u.props.button.showMessageCard
-    },
-    // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
-    dataName: {
-      type: String,
-      default: uni.$u.props.button.dataName
-    },
-    // 节流，一定时间内只能触发一次
-    throttleTime: {
-      type: [String, Number],
-      default: uni.$u.props.button.throttleTime
-    },
-    // 按住后多久出现点击态，单位毫秒
-    hoverStartTime: {
-      type: [String, Number],
-      default: uni.$u.props.button.hoverStartTime
-    },
-    // 手指松开后点击态保留时间，单位毫秒
-    hoverStayTime: {
-      type: [String, Number],
-      default: uni.$u.props.button.hoverStayTime
-    },
-    // 按钮文字，之所以通过props传入，是因为slot传入的话
-    // nvue中无法控制文字的样式
-    text: {
-      type: [String, Number],
-      default: uni.$u.props.button.text
-    },
-    // 按钮图标
-    icon: {
-      type: String,
-      default: uni.$u.props.button.icon
-    },
-    // 按钮图标
-    iconColor: {
-      type: String,
-      default: uni.$u.props.button.icon
-    },
-    // 按钮颜色，支持传入linear-gradient渐变色
-    color: {
-      type: String,
-      default: uni.$u.props.button.color
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */,
-/* 607 */,
-/* 608 */,
-/* 609 */,
-/* 610 */
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */,
+/* 627 */,
+/* 628 */,
+/* 629 */
 /*!******************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-datetime-picker/props.js ***!
   \******************************************************************************************************************/
@@ -24488,7 +24927,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 611 */
+/* 630 */
 /*!***********************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/util/dayjs.js ***!
   \***********************************************************************************************/
@@ -24800,25 +25239,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 });
 
 /***/ }),
-/* 612 */,
-/* 613 */,
-/* 614 */,
-/* 615 */,
-/* 616 */,
-/* 617 */,
-/* 618 */,
-/* 619 */,
-/* 620 */,
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */,
-/* 625 */,
-/* 626 */,
-/* 627 */,
-/* 628 */,
-/* 629 */,
-/* 630 */,
 /* 631 */,
 /* 632 */,
 /* 633 */,
@@ -24833,7 +25253,26 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 /* 642 */,
 /* 643 */,
 /* 644 */,
-/* 645 */
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */,
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */,
+/* 664 */
 /*!***************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-action-sheet/props.js ***!
   \***************************************************************************************************************/
@@ -24905,14 +25344,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 646 */,
-/* 647 */,
-/* 648 */,
-/* 649 */,
-/* 650 */,
-/* 651 */,
-/* 652 */,
-/* 653 */
+/* 665 */,
+/* 666 */,
+/* 667 */,
+/* 668 */,
+/* 669 */,
+/* 670 */,
+/* 671 */,
+/* 672 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-calendar/props.js ***!
   \***********************************************************************************************************/
@@ -25074,7 +25513,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 654 */
+/* 673 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-calendar/util.js ***!
   \**********************************************************************************************************/
@@ -25171,7 +25610,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 655 */
+/* 674 */
 /*!**************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/util/calendar.js ***!
   \**************************************************************************************************/
@@ -25688,28 +26127,28 @@ var _default = calendar;
 exports.default = _default;
 
 /***/ }),
-/* 656 */,
-/* 657 */,
-/* 658 */,
-/* 659 */,
-/* 660 */,
-/* 661 */,
-/* 662 */,
-/* 663 */,
-/* 664 */,
-/* 665 */,
-/* 666 */,
-/* 667 */,
-/* 668 */,
-/* 669 */,
-/* 670 */,
-/* 671 */,
-/* 672 */,
-/* 673 */,
-/* 674 */,
 /* 675 */,
 /* 676 */,
-/* 677 */
+/* 677 */,
+/* 678 */,
+/* 679 */,
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
+/* 695 */,
+/* 696 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-modal/props.js ***!
   \********************************************************************************************************/
@@ -25816,25 +26255,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 678 */,
-/* 679 */,
-/* 680 */,
-/* 681 */,
-/* 682 */,
-/* 683 */,
-/* 684 */,
-/* 685 */,
-/* 686 */,
-/* 687 */,
-/* 688 */,
-/* 689 */,
-/* 690 */,
-/* 691 */,
-/* 692 */,
-/* 693 */,
-/* 694 */,
-/* 695 */,
-/* 696 */,
 /* 697 */,
 /* 698 */,
 /* 699 */,
@@ -25849,7 +26269,110 @@ exports.default = _default;
 /* 708 */,
 /* 709 */,
 /* 710 */,
-/* 711 */
+/* 711 */,
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */
+/*!***********************************************************************************************************!*\
+  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-count-to/props.js ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 开始的数值，默认从0增长到某一个数
+    startVal: {
+      type: [String, Number],
+      default: uni.$u.props.countTo.startVal
+    },
+    // 要滚动的目标数值，必须
+    endVal: {
+      type: [String, Number],
+      default: uni.$u.props.countTo.endVal
+    },
+    // 滚动到目标数值的动画持续时间，单位为毫秒（ms）
+    duration: {
+      type: [String, Number],
+      default: uni.$u.props.countTo.duration
+    },
+    // 设置数值后是否自动开始滚动
+    autoplay: {
+      type: Boolean,
+      default: uni.$u.props.countTo.autoplay
+    },
+    // 要显示的小数位数
+    decimals: {
+      type: [String, Number],
+      default: uni.$u.props.countTo.decimals
+    },
+    // 是否在即将到达目标数值的时候，使用缓慢滚动的效果
+    useEasing: {
+      type: Boolean,
+      default: uni.$u.props.countTo.useEasing
+    },
+    // 十进制分割
+    decimal: {
+      type: [String, Number],
+      default: uni.$u.props.countTo.decimal
+    },
+    // 字体颜色
+    color: {
+      type: String,
+      default: uni.$u.props.countTo.color
+    },
+    // 字体大小
+    fontSize: {
+      type: [String, Number],
+      default: uni.$u.props.countTo.fontSize
+    },
+    // 是否加粗字体
+    bold: {
+      type: Boolean,
+      default: uni.$u.props.countTo.bold
+    },
+    // 千位分隔符，类似金额的分割(￥23,321.05中的",")
+    separator: {
+      type: String,
+      default: uni.$u.props.countTo.separator
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-text/props.js ***!
   \*******************************************************************************************************/
@@ -25977,12 +26500,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 712 */,
-/* 713 */,
-/* 714 */,
-/* 715 */,
-/* 716 */,
-/* 717 */
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-line/props.js ***!
   \*******************************************************************************************************/
@@ -26033,14 +26556,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 718 */,
-/* 719 */,
-/* 720 */,
-/* 721 */,
-/* 722 */,
-/* 723 */,
-/* 724 */,
-/* 725 */
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/libs/util/async-validator.js ***!
   \*********************************************************************************************************/
@@ -27221,10 +27744,10 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema; // # sourceMappingURL=index.js.map
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 726)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 753)))
 
 /***/ }),
-/* 726 */
+/* 753 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -27255,7 +27778,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 727);
+        if (!path) path = __webpack_require__(/*! path */ 754);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -27268,7 +27791,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 727 */
+/* 754 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -27578,22 +28101,22 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 726)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 753)))
 
 /***/ }),
-/* 728 */,
-/* 729 */,
-/* 730 */,
-/* 731 */,
-/* 732 */,
-/* 733 */,
-/* 734 */,
-/* 735 */,
-/* 736 */,
-/* 737 */,
-/* 738 */,
-/* 739 */,
-/* 740 */
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */
 /*!***************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
   \***************************************************************************************************************/
@@ -27670,14 +28193,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 741 */,
-/* 742 */,
-/* 743 */,
-/* 744 */,
-/* 745 */,
-/* 746 */,
-/* 747 */,
-/* 748 */
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */
 /*!*******************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \*******************************************************************************************************************/
@@ -27724,21 +28247,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 749 */,
-/* 750 */,
-/* 751 */,
-/* 752 */,
-/* 753 */,
-/* 754 */,
-/* 755 */,
-/* 756 */,
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */,
-/* 763 */
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */
 /*!********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-popup/props.js ***!
   \********************************************************************************************************/
@@ -27835,14 +28358,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 764 */,
-/* 765 */,
-/* 766 */,
-/* 767 */,
-/* 768 */,
-/* 769 */,
-/* 770 */,
-/* 771 */
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-toolbar/props.js ***!
   \**********************************************************************************************************/
@@ -27894,339 +28417,19 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 772 */,
-/* 773 */,
-/* 774 */,
-/* 775 */,
-/* 776 */,
-/* 777 */,
-/* 778 */,
-/* 779 */
-/*!*********************************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/utils.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni, wx) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.chooseFile = chooseFile;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function pickExclude(obj, keys) {
-  // 某些情况下，type可能会为
-  if (!['[object Object]', '[object File]'].includes(Object.prototype.toString.call(obj))) {
-    return {};
-  }
-  return Object.keys(obj).reduce(function (prev, key) {
-    if (!keys.includes(key)) {
-      prev[key] = obj[key];
-    }
-    return prev;
-  }, {});
-}
-function formatImage(res) {
-  return res.tempFiles.map(function (item) {
-    return _objectSpread(_objectSpread({}, pickExclude(item, ['path'])), {}, {
-      type: 'image',
-      url: item.path,
-      thumb: item.path,
-      size: item.size
-    });
-  });
-}
-function formatVideo(res) {
-  return [_objectSpread(_objectSpread({}, pickExclude(res, ['tempFilePath', 'thumbTempFilePath', 'errMsg'])), {}, {
-    type: 'video',
-    url: res.tempFilePath,
-    thumb: res.thumbTempFilePath,
-    size: res.size
-  })];
-}
-function formatMedia(res) {
-  return res.tempFiles.map(function (item) {
-    return _objectSpread(_objectSpread({}, pickExclude(item, ['fileType', 'thumbTempFilePath', 'tempFilePath'])), {}, {
-      type: res.type,
-      url: item.tempFilePath,
-      thumb: res.type === 'video' ? item.thumbTempFilePath : item.tempFilePath,
-      size: item.size
-    });
-  });
-}
-function formatFile(res) {
-  return res.tempFiles.map(function (item) {
-    return _objectSpread(_objectSpread({}, pickExclude(item, ['path'])), {}, {
-      url: item.path,
-      size: item.size
-    });
-  });
-}
-function chooseFile(_ref) {
-  var accept = _ref.accept,
-    multiple = _ref.multiple,
-    capture = _ref.capture,
-    compressed = _ref.compressed,
-    maxDuration = _ref.maxDuration,
-    sizeType = _ref.sizeType,
-    camera = _ref.camera,
-    maxCount = _ref.maxCount;
-  return new Promise(function (resolve, reject) {
-    switch (accept) {
-      case 'image':
-        uni.chooseImage({
-          count: multiple ? Math.min(maxCount, 9) : 1,
-          sourceType: capture,
-          sizeType: sizeType,
-          success: function success(res) {
-            return resolve(formatImage(res));
-          },
-          fail: reject
-        });
-        break;
-
-      // 只有微信小程序才支持chooseMedia接口
-      case 'media':
-        wx.chooseMedia({
-          count: multiple ? Math.min(maxCount, 9) : 1,
-          sourceType: capture,
-          maxDuration: maxDuration,
-          sizeType: sizeType,
-          camera: camera,
-          success: function success(res) {
-            return resolve(formatMedia(res));
-          },
-          fail: reject
-        });
-        break;
-      case 'video':
-        uni.chooseVideo({
-          sourceType: capture,
-          compressed: compressed,
-          maxDuration: maxDuration,
-          camera: camera,
-          success: function success(res) {
-            return resolve(formatVideo(res));
-          },
-          fail: reject
-        });
-        break;
-
-      // 只有微信小程序才支持chooseMessageFile接口
-      case 'file':
-        wx.chooseMessageFile({
-          count: multiple ? maxCount : 1,
-          type: accept,
-          success: function success(res) {
-            return resolve(formatFile(res));
-          },
-          fail: reject
-        });
-        break;
-      default:
-        // 此为保底选项，在accept不为上面任意一项的时候选取全部文件
-
-        wx.chooseMessageFile({
-          count: multiple ? maxCount : 1,
-          type: 'all',
-          success: function success(res) {
-            return resolve(formatFile(res));
-          },
-          fail: reject
-        });
-    }
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
-
-/***/ }),
-/* 780 */
-/*!*********************************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/mixin.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  watch: {
-    // 监听accept的变化，判断是否符合个平台要求
-    // 只有微信小程序才支持选择媒体，文件类型，所以这里做一个判断提示
-    accept: {
-      immediate: true,
-      handler: function handler(val) {}
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 781 */
-/*!*********************************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-upload/props.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    // 接受的文件类型, 可选值为all media image file video
-    accept: {
-      type: String,
-      default: uni.$u.props.upload.accept
-    },
-    // 	图片或视频拾取模式，当accept为image类型时设置capture可选额外camera可以直接调起摄像头
-    capture: {
-      type: [String, Array],
-      default: uni.$u.props.upload.capture
-    },
-    // 当accept为video时生效，是否压缩视频，默认为true
-    compressed: {
-      type: Boolean,
-      default: uni.$u.props.upload.compressed
-    },
-    // 当accept为video时生效，可选值为back或front
-    camera: {
-      type: String,
-      default: uni.$u.props.upload.camera
-    },
-    // 当accept为video时生效，拍摄视频最长拍摄时间，单位秒
-    maxDuration: {
-      type: Number,
-      default: uni.$u.props.upload.maxDuration
-    },
-    // 上传区域的图标，只能内置图标
-    uploadIcon: {
-      type: String,
-      default: uni.$u.props.upload.uploadIcon
-    },
-    // 上传区域的图标的颜色，默认
-    uploadIconColor: {
-      type: String,
-      default: uni.$u.props.upload.uploadIconColor
-    },
-    // 是否开启文件读取前事件
-    useBeforeRead: {
-      type: Boolean,
-      default: uni.$u.props.upload.useBeforeRead
-    },
-    // 读取后的处理函数
-    afterRead: {
-      type: Function,
-      default: null
-    },
-    // 读取前的处理函数
-    beforeRead: {
-      type: Function,
-      default: null
-    },
-    // 是否显示组件自带的图片预览功能
-    previewFullImage: {
-      type: Boolean,
-      default: uni.$u.props.upload.previewFullImage
-    },
-    // 最大上传数量
-    maxCount: {
-      type: [String, Number],
-      default: uni.$u.props.upload.maxCount
-    },
-    // 是否启用
-    disabled: {
-      type: Boolean,
-      default: uni.$u.props.upload.disabled
-    },
-    // 预览上传的图片时的裁剪模式，和image组件mode属性一致
-    imageMode: {
-      type: String,
-      default: uni.$u.props.upload.imageMode
-    },
-    // 标识符，可以在回调函数的第二项参数中获取
-    name: {
-      type: String,
-      default: uni.$u.props.upload.name
-    },
-    // 所选的图片的尺寸, 可选值为original compressed
-    sizeType: {
-      type: Array,
-      default: uni.$u.props.upload.sizeType
-    },
-    // 是否开启图片多选，部分安卓机型不支持
-    multiple: {
-      type: Boolean,
-      default: uni.$u.props.upload.multiple
-    },
-    // 是否展示删除按钮
-    deletable: {
-      type: Boolean,
-      default: uni.$u.props.upload.deletable
-    },
-    // 文件大小限制，单位为byte
-    maxSize: {
-      type: [String, Number],
-      default: uni.$u.props.upload.maxSize
-    },
-    // 显示已上传的文件列表
-    fileList: {
-      type: Array,
-      default: uni.$u.props.upload.fileList
-    },
-    // 上传区域的提示文字
-    uploadText: {
-      type: String,
-      default: uni.$u.props.upload.uploadText
-    },
-    // 内部预览图片区域和选择图片按钮的区域宽度
-    width: {
-      type: [String, Number],
-      default: uni.$u.props.upload.width
-    },
-    // 内部预览图片区域和选择图片按钮的区域高度
-    height: {
-      type: [String, Number],
-      default: uni.$u.props.upload.height
-    },
-    // 是否在上传完成后展示预览图
-    previewImage: {
-      type: Boolean,
-      default: uni.$u.props.upload.previewImage
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 782 */,
-/* 783 */,
-/* 784 */,
-/* 785 */,
-/* 786 */,
-/* 787 */,
-/* 788 */,
-/* 789 */,
-/* 790 */,
-/* 791 */,
-/* 792 */,
-/* 793 */,
-/* 794 */
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */
 /*!*****************************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-checkbox-group/props.js ***!
   \*****************************************************************************************************************/
@@ -28323,14 +28526,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 795 */,
-/* 796 */,
-/* 797 */,
-/* 798 */,
-/* 799 */,
-/* 800 */,
-/* 801 */,
-/* 802 */
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */,
+/* 819 */
 /*!***********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-checkbox/props.js ***!
   \***********************************************************************************************************/
@@ -28417,14 +28620,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 803 */,
-/* 804 */,
-/* 805 */,
-/* 806 */,
-/* 807 */,
-/* 808 */,
-/* 809 */,
-/* 810 */
+/* 820 */,
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */,
+/* 825 */,
+/* 826 */,
+/* 827 */
 /*!******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-gap/props.js ***!
   \******************************************************************************************************/
@@ -28466,23 +28669,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 811 */,
-/* 812 */,
-/* 813 */,
-/* 814 */,
-/* 815 */,
-/* 816 */,
-/* 817 */,
-/* 818 */,
-/* 819 */,
-/* 820 */,
-/* 821 */,
-/* 822 */,
-/* 823 */,
-/* 824 */,
-/* 825 */,
-/* 826 */,
-/* 827 */,
 /* 828 */,
 /* 829 */,
 /* 830 */,
@@ -28492,7 +28678,24 @@ exports.default = _default;
 /* 834 */,
 /* 835 */,
 /* 836 */,
-/* 837 */
+/* 837 */,
+/* 838 */,
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */,
+/* 854 */
 /*!*********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-search/props.js ***!
   \*********************************************************************************************************/
@@ -28628,14 +28831,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 838 */,
-/* 839 */,
-/* 840 */,
-/* 841 */,
-/* 842 */,
-/* 843 */,
-/* 844 */,
-/* 845 */
+/* 855 */,
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */,
+/* 862 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-text/value.js ***!
   \*******************************************************************************************************/
@@ -28743,14 +28946,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 846 */,
-/* 847 */,
-/* 848 */,
-/* 849 */,
-/* 850 */,
-/* 851 */,
-/* 852 */,
-/* 853 */
+/* 863 */,
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */,
+/* 869 */,
+/* 870 */
 /*!**********************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-overlay/props.js ***!
   \**********************************************************************************************************/
@@ -28792,14 +28995,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 854 */,
-/* 855 */,
-/* 856 */,
-/* 857 */,
-/* 858 */,
-/* 859 */,
-/* 860 */,
-/* 861 */
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */
 /*!*******************************************************************************************************!*\
   !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/uni_modules/uview-ui/components/u-link/props.js ***!
   \*******************************************************************************************************/
@@ -28854,334 +29057,6 @@ var _default = {
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 862 */,
-/* 863 */,
-/* 864 */,
-/* 865 */,
-/* 866 */,
-/* 867 */,
-/* 868 */,
-/* 869 */,
-/* 870 */,
-/* 871 */,
-/* 872 */,
-/* 873 */,
-/* 874 */,
-/* 875 */,
-/* 876 */,
-/* 877 */,
-/* 878 */,
-/* 879 */,
-/* 880 */,
-/* 881 */,
-/* 882 */,
-/* 883 */,
-/* 884 */,
-/* 885 */,
-/* 886 */,
-/* 887 */,
-/* 888 */,
-/* 889 */,
-/* 890 */,
-/* 891 */,
-/* 892 */,
-/* 893 */,
-/* 894 */,
-/* 895 */,
-/* 896 */,
-/* 897 */,
-/* 898 */,
-/* 899 */,
-/* 900 */,
-/* 901 */,
-/* 902 */,
-/* 903 */,
-/* 904 */,
-/* 905 */,
-/* 906 */,
-/* 907 */,
-/* 908 */,
-/* 909 */,
-/* 910 */,
-/* 911 */,
-/* 912 */,
-/* 913 */,
-/* 914 */,
-/* 915 */,
-/* 916 */,
-/* 917 */,
-/* 918 */,
-/* 919 */,
-/* 920 */,
-/* 921 */,
-/* 922 */,
-/* 923 */,
-/* 924 */,
-/* 925 */,
-/* 926 */,
-/* 927 */,
-/* 928 */,
-/* 929 */,
-/* 930 */,
-/* 931 */,
-/* 932 */,
-/* 933 */,
-/* 934 */,
-/* 935 */,
-/* 936 */,
-/* 937 */,
-/* 938 */,
-/* 939 */,
-/* 940 */,
-/* 941 */,
-/* 942 */,
-/* 943 */,
-/* 944 */,
-/* 945 */,
-/* 946 */,
-/* 947 */,
-/* 948 */,
-/* 949 */,
-/* 950 */,
-/* 951 */,
-/* 952 */,
-/* 953 */,
-/* 954 */,
-/* 955 */,
-/* 956 */,
-/* 957 */,
-/* 958 */,
-/* 959 */,
-/* 960 */,
-/* 961 */,
-/* 962 */,
-/* 963 */,
-/* 964 */,
-/* 965 */,
-/* 966 */,
-/* 967 */,
-/* 968 */,
-/* 969 */,
-/* 970 */,
-/* 971 */,
-/* 972 */,
-/* 973 */,
-/* 974 */,
-/* 975 */,
-/* 976 */,
-/* 977 */
-/*!*****************************************************************************************!*\
-  !*** D:/work/part-time-job/chenjun/yqfcyt_new/qyfcyt/node_modules/image-tools/index.js ***!
-  \*****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(wx) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.base64ToPath = base64ToPath;
-exports.pathToBase64 = pathToBase64;
-var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
-function getLocalFilePath(path) {
-  if (path.indexOf('_www') === 0 || path.indexOf('_doc') === 0 || path.indexOf('_documents') === 0 || path.indexOf('_downloads') === 0) {
-    return path;
-  }
-  if (path.indexOf('file://') === 0) {
-    return path;
-  }
-  if (path.indexOf('/storage/emulated/0/') === 0) {
-    return path;
-  }
-  if (path.indexOf('/') === 0) {
-    var localFilePath = plus.io.convertAbsoluteFileSystem(path);
-    if (localFilePath !== path) {
-      return localFilePath;
-    } else {
-      path = path.substr(1);
-    }
-  }
-  return '_www/' + path;
-}
-function dataUrlToBase64(str) {
-  var array = str.split(',');
-  return array[array.length - 1];
-}
-var index = 0;
-function getNewFileId() {
-  return Date.now() + String(index++);
-}
-function biggerThan(v1, v2) {
-  var v1Array = v1.split('.');
-  var v2Array = v2.split('.');
-  var update = false;
-  for (var index = 0; index < v2Array.length; index++) {
-    var diff = v1Array[index] - v2Array[index];
-    if (diff !== 0) {
-      update = diff > 0;
-      break;
-    }
-  }
-  return update;
-}
-function pathToBase64(path) {
-  return new Promise(function (resolve, reject) {
-    if ((typeof window === "undefined" ? "undefined" : (0, _typeof2.default)(window)) === 'object' && 'document' in window) {
-      if (typeof FileReader === 'function') {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', path, true);
-        xhr.responseType = 'blob';
-        xhr.onload = function () {
-          if (this.status === 200) {
-            var fileReader = new FileReader();
-            fileReader.onload = function (e) {
-              resolve(e.target.result);
-            };
-            fileReader.onerror = reject;
-            fileReader.readAsDataURL(this.response);
-          }
-        };
-        xhr.onerror = reject;
-        xhr.send();
-        return;
-      }
-      var canvas = document.createElement('canvas');
-      var c2x = canvas.getContext('2d');
-      var img = new Image();
-      img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        c2x.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL());
-        canvas.height = canvas.width = 0;
-      };
-      img.onerror = reject;
-      img.src = path;
-      return;
-    }
-    if ((typeof plus === "undefined" ? "undefined" : (0, _typeof2.default)(plus)) === 'object') {
-      plus.io.resolveLocalFileSystemURL(getLocalFilePath(path), function (entry) {
-        entry.file(function (file) {
-          var fileReader = new plus.io.FileReader();
-          fileReader.onload = function (data) {
-            resolve(data.target.result);
-          };
-          fileReader.onerror = function (error) {
-            reject(error);
-          };
-          fileReader.readAsDataURL(file);
-        }, function (error) {
-          reject(error);
-        });
-      }, function (error) {
-        reject(error);
-      });
-      return;
-    }
-    if ((typeof wx === "undefined" ? "undefined" : (0, _typeof2.default)(wx)) === 'object' && wx.canIUse('getFileSystemManager')) {
-      wx.getFileSystemManager().readFile({
-        filePath: path,
-        encoding: 'base64',
-        success: function success(res) {
-          resolve('data:image/png;base64,' + res.data);
-        },
-        fail: function fail(error) {
-          reject(error);
-        }
-      });
-      return;
-    }
-    reject(new Error('not support'));
-  });
-}
-function base64ToPath(base64) {
-  return new Promise(function (resolve, reject) {
-    if ((typeof window === "undefined" ? "undefined" : (0, _typeof2.default)(window)) === 'object' && 'document' in window) {
-      base64 = base64.split(',');
-      var type = base64[0].match(/:(.*?);/)[1];
-      var str = atob(base64[1]);
-      var n = str.length;
-      var array = new Uint8Array(n);
-      while (n--) {
-        array[n] = str.charCodeAt(n);
-      }
-      return resolve((window.URL || window.webkitURL).createObjectURL(new Blob([array], {
-        type: type
-      })));
-    }
-    var extName = base64.split(',')[0].match(/data\:\S+\/(\S+);/);
-    if (extName) {
-      extName = extName[1];
-    } else {
-      reject(new Error('base64 error'));
-    }
-    var fileName = getNewFileId() + '.' + extName;
-    if ((typeof plus === "undefined" ? "undefined" : (0, _typeof2.default)(plus)) === 'object') {
-      var basePath = '_doc';
-      var dirPath = 'uniapp_temp';
-      var filePath = basePath + '/' + dirPath + '/' + fileName;
-      if (!biggerThan(plus.os.name === 'Android' ? '1.9.9.80627' : '1.9.9.80472', plus.runtime.innerVersion)) {
-        plus.io.resolveLocalFileSystemURL(basePath, function (entry) {
-          entry.getDirectory(dirPath, {
-            create: true,
-            exclusive: false
-          }, function (entry) {
-            entry.getFile(fileName, {
-              create: true,
-              exclusive: false
-            }, function (entry) {
-              entry.createWriter(function (writer) {
-                writer.onwrite = function () {
-                  resolve(filePath);
-                };
-                writer.onerror = reject;
-                writer.seek(0);
-                writer.writeAsBinary(dataUrlToBase64(base64));
-              }, reject);
-            }, reject);
-          }, reject);
-        }, reject);
-        return;
-      }
-      var bitmap = new plus.nativeObj.Bitmap(fileName);
-      bitmap.loadBase64Data(base64, function () {
-        bitmap.save(filePath, {}, function () {
-          bitmap.clear();
-          resolve(filePath);
-        }, function (error) {
-          bitmap.clear();
-          reject(error);
-        });
-      }, function (error) {
-        bitmap.clear();
-        reject(error);
-      });
-      return;
-    }
-    if ((typeof wx === "undefined" ? "undefined" : (0, _typeof2.default)(wx)) === 'object' && wx.canIUse('getFileSystemManager')) {
-      var filePath = wx.env.USER_DATA_PATH + '/' + fileName;
-      wx.getFileSystemManager().writeFile({
-        filePath: filePath,
-        data: dataUrlToBase64(base64),
-        encoding: 'base64',
-        success: function success() {
-          resolve(filePath);
-        },
-        fail: function fail(error) {
-          reject(error);
-        }
-      });
-      return;
-    }
-    reject(new Error('not support'));
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ })
 ]]);

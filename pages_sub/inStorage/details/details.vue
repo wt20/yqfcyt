@@ -74,6 +74,19 @@
 				</view>
 				<u-icon slot="right" name="arrow-right"></u-icon>
 			</u-form-item>
+			<u-form-item label="是否全叉车" prop="orderOperate.forklift_type" borderBottom>
+				<u-radio-group v-model="formModel.orderOperate.forklift_type" placement="row">
+					<u-radio :customStyle="{marginRight: '50rpx'}" label="是" :name="1"></u-radio>
+					<u-radio label="否" :name="0"></u-radio>
+				</u-radio-group>
+			</u-form-item>
+			<u-form-item label="是否起地" prop="orderOperate.loadType" borderBottom>
+				<u-radio-group v-model="formModel.orderOperate.loadType" placement="row">
+					<u-radio :customStyle="{marginRight: '50rpx'}" label="是" :name="1"></u-radio>
+					<u-radio label="否" :name="0"></u-radio>
+				</u-radio-group>
+			</u-form-item>
+			
 			<u-form-item label="卸货前照片" prop="orderOperate.preDischargePhotoUrl" borderBottom>
 				<FileUplaod :defaultData="formModel.orderOperate.preDischargePhotoUrl"
 					@change="fileChange($event, 'preDischargePhotoUrl')" />
@@ -276,6 +289,12 @@
 						// 叉车司机
 						operateDriver: "",
 						operateDriverNames: "",
+						
+						//是否起地[1、0]
+						loadType: 0,
+						// 是否全叉车[1、0]
+						forklift_type: 0,
+						
 						// 卸货前照片
 						preDischargePhotoUrl: [],
 						// 破损件照片
@@ -338,6 +357,19 @@
 						message: '请输入装卸班组',
 						trigger: ['change', 'blur']
 					},
+					'orderOperate.forklift_type': {
+						type: 'number',
+						required: true,
+						message: '是否全叉车',
+						trigger: ['change', 'blur']
+					},
+					'orderOperate.loadType': {
+						type: 'number',
+						required: true,
+						message: '是否起地',
+						trigger: ['change', 'blur']
+					},
+					
 					// 'orderOperate.operateDriver': {
 					// 	type: 'string',
 					// 	required: true,

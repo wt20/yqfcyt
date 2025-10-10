@@ -183,7 +183,18 @@
 				"path" : "transportLogin/transportLogin",
 				"style" : 
 				{
-					"navigationBarTitleText" : "运输系统登陆"
+					"navigationBarTitleText": "运齐发仓储宝",
+					"enablePullDownRefresh": false,
+					"disableScroll": true,
+					"navigationStyle": "custom",
+					"navigationBarTextStyle": "white"
+				}
+			},
+			{
+				"path" : "kanban/kanban",
+				"style" : 
+				{
+					"navigationBarTitleText" : "经营看板"
 				}
 			}
 		]

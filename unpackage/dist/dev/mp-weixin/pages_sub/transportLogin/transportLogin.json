@@ -1,5 +1,9 @@
 {
-  "navigationBarTitleText": "运输系统登陆",
+  "navigationBarTitleText": "运齐发仓储宝",
+  "enablePullDownRefresh": false,
+  "disableScroll": true,
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
   "usingComponents": {
     "u-status-bar": "/uni_modules/uview-ui/components/u-status-bar/u-status-bar",
     "u-avatar": "/uni_modules/uview-ui/components/u-avatar/u-avatar",

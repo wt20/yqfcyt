@@ -29,7 +29,8 @@
         "inventoryCheck/selectGoods/editGoods/editGoods",
         "vehicle/vehicle",
         "vehicle/details/details",
-        "transportLogin/transportLogin"
+        "transportLogin/transportLogin",
+        "kanban/kanban"
       ]
     }
   ],

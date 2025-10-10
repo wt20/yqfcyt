@@ -104,6 +104,21 @@ export const isEmpty = function(val) {
 	return !val && val !== 0
 }
 
+export const bindData = function(modal, data) {
+	for (var key in modal) {
+		if (modal.hasOwnProperty(key) && data.hasOwnProperty(key)) {
+			if (!isEmpty(data[key])) {
+				modal[key] = data[key]
+				// console.log(key);
+				// if(Object.prototype.toString.call(modal[key]) === '[object Object]') {
+				// 	bindData(modal[key], data[key])
+				// }else modal[key] = data[key]
+			}
+		}
+	}
+	return modal
+}
+
 export const base64ToFile = (base64data, cb) => {
 	const fsm = uni.getFileSystemManager();
 	const FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名

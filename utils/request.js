@@ -1,4 +1,5 @@
 // 请求js
+let cookies = []
 
 uni.$u.http.setConfig((config) => {
 	/* config 为默认全局配置*/
@@ -17,6 +18,10 @@ uni.$u.http.interceptors.request.use((config) => { // 可使用async await 做�
 	if (config.custom.loading) {
 		uni.showLoading()
 	}
+	const tCookie = uni.getStorageSync('t_cookie') || []
+	if (tCookie?.length) {
+		config.header.cookie = tCookie.join(';')
+	}
 	return config
 }, config => { // 可使用async await 做异步操作
 	return Promise.reject(config)
@@ -24,6 +29,10 @@ uni.$u.http.interceptors.request.use((config) => { // 可使用async await 做�
 
 // 响应拦截
 uni.$u.http.interceptors.response.use((response) => {
+	if (response.cookies?.length) {
+		const tCookie = uni.getStorageSync('t_cookie') || []
+		uni.setStorageSync('t_cookie', [...response.cookies]);
+	}
 	try {
 		uni?.hideLoading()
 	} catch (error) {

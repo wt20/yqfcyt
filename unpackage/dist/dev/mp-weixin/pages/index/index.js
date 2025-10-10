@@ -101,10 +101,10 @@ var components
 try {
   components = {
     uStatusBar: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-status-bar/u-status-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-status-bar/u-status-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-status-bar/u-status-bar.vue */ 379))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-status-bar/u-status-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-status-bar/u-status-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-status-bar/u-status-bar.vue */ 388))
     },
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 387))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 396))
     },
   }
 } catch (e) {
@@ -195,7 +195,7 @@ var _default = {
       // 权限配置
       menuPowers: {
         doorman: ['/pages_sub/vehicle/vehicle'],
-        admin: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle'],
+        admin: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'],
         customer: ['/pages_sub/appointment/appointment', '/pages_sub/myGoods/myGoods']
       }
     };
@@ -260,7 +260,11 @@ var _default = {
         text: '我的货物',
         url: '/pages_sub/myGoods/myGoods'
       }, {
-        img: 'warehouse_menu5',
+        img: 'warehouse_menu6',
+        text: '经营看板',
+        url: '/pages_sub/kanban/kanban'
+      }, {
+        img: 'warehouse_menu7',
         text: '车辆管理',
         url: '/pages_sub/vehicle/vehicle'
       }];

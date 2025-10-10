@@ -67,6 +67,18 @@
 				</view>
 				<u-icon slot="right" name="arrow-right"></u-icon>
 			</u-form-item>
+			<u-form-item label="是否全叉车" prop="orderOperate.forklift_type" borderBottom>
+				<u-radio-group v-model="formModel.orderOperate.forklift_type" placement="row">
+					<u-radio :customStyle="{marginRight: '50rpx'}" label="是" :name="1"></u-radio>
+					<u-radio label="否" :name="0"></u-radio>
+				</u-radio-group>
+			</u-form-item>
+			<u-form-item label="是否起地" prop="orderOperate.loadType" borderBottom>
+				<u-radio-group v-model="formModel.orderOperate.loadType" placement="row">
+					<u-radio :customStyle="{marginRight: '50rpx'}" label="是" :name="1"></u-radio>
+					<u-radio label="否" :name="0"></u-radio>
+				</u-radio-group>
+			</u-form-item>
 			<u-form-item label="装车完成照片" prop="orderOperate.outStorageCompletedFileList" borderBottom>
 				<FileUplaod :defaultData="formModel.orderOperate.outStorageCompletedFileList"
 					@change="fileChange($event, 'outStorageCompletedFileList')" />
@@ -248,6 +260,12 @@
 						operatePersonNames: "",
 						// 叉车司机
 						operateDriver: "",
+						
+						//是否起地[1、0]
+						loadType: 0,
+						// 是否全叉车[1、0]
+						forklift_type: 0,
+						
 						operateDriverNames: "",
 						// 装车完成照片
 						outStorageCompletedFileList: [],
@@ -328,6 +346,19 @@
 					// 	message: '请输入叉车司机名称',
 					// 	trigger: ['change', 'blur']
 					// },
+					'orderOperate.forklift_type': {
+						type: 'number',
+						required: true,
+						message: '是否全叉车',
+						trigger: ['change', 'blur']
+					},
+					'orderOperate.loadType': {
+						type: 'number',
+						required: true,
+						message: '是否起地',
+						trigger: ['change', 'blur']
+					},
+					
 					'orderOperate.outStorageCompletedFileList': {
 						type: 'array',
 						required: true,
@@ -460,6 +491,7 @@
 				this.handleSubmit()
 			},
 			handleSubmit(isSave = true) {
+				console.log(112, this.formModel);
 				this.$refs.formRef.validate().then(res => {
 					const data = JSON.parse(JSON.stringify(this.formModel.orderOperate))
 					this.getCheckerFields.forEach(i => {

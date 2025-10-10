@@ -39,7 +39,7 @@
 			// 退出登录
 			logOut() {
 				uni.removeStorageSync('token');
-				// uni.removeStorageSync('user_info');
+				uni.removeStorageSync('t_user_info');
 				uni.redirectTo({
 					url: '/pages_sub/login/login'
 				});
