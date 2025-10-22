@@ -101,10 +101,10 @@ var components
 try {
   components = {
     uStatusBar: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-status-bar/u-status-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-status-bar/u-status-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-status-bar/u-status-bar.vue */ 388))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-status-bar/u-status-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-status-bar/u-status-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-status-bar/u-status-bar.vue */ 372))
     },
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 396))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 380))
     },
   }
 } catch (e) {
@@ -196,6 +196,10 @@ var _default = {
       menuPowers: {
         doorman: ['/pages_sub/vehicle/vehicle'],
         admin: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'],
+        service_audit_supervisor: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'],
+        storage_supervisor: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'],
+        service_supervisor: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'],
+        stock_supervisor: ['/pages_sub/appointment/appointment', '/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage', '/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods', '/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'],
         customer: ['/pages_sub/appointment/appointment', '/pages_sub/myGoods/myGoods']
       }
     };

@@ -99,6 +99,26 @@
 						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
 						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
 					],
+					service_audit_supervisor: ['/pages_sub/appointment/appointment',
+						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
+						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
+						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
+					],
+					storage_supervisor: ['/pages_sub/appointment/appointment',
+						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
+						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
+						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
+					],
+					service_supervisor: ['/pages_sub/appointment/appointment',
+						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
+						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
+						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
+					],
+					stock_supervisor: ['/pages_sub/appointment/appointment',
+						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
+						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
+						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
+					],
 					customer: ['/pages_sub/appointment/appointment', '/pages_sub/myGoods/myGoods']
 				}
 			}
