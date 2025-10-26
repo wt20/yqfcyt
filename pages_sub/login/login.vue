@@ -138,6 +138,12 @@
 								user: res.user
 							});
 							setTimeout(() => {
+								if (res.roles.includes('doorman')) {
+									uni.redirectTo({
+										url: '/pages_sub/vehicle/vehicle'
+									});
+									return
+								}
 								uni.switchTab({
 									url: '/pages/index/index'
 								});

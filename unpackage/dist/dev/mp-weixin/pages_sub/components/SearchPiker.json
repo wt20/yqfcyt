@@ -1,7 +1,7 @@
 {
-  "component": true,
   "usingComponents": {
     "u-search": "/uni_modules/uview-ui/components/u-search/u-search",
     "u-picker": "/uni_modules/uview-ui/components/u-picker/u-picker"
-  }
+  },
+  "component": true
 }

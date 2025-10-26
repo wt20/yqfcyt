@@ -311,6 +311,12 @@ var _default = {
             user: res.user
           });
           setTimeout(function () {
+            if (res.roles.includes('doorman')) {
+              uni.redirectTo({
+                url: '/pages_sub/vehicle/vehicle'
+              });
+              return;
+            }
             uni.switchTab({
               url: '/pages/index/index'
             });

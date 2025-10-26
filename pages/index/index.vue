@@ -93,33 +93,21 @@
 				warehouseMenus: [],
 				// 权限配置
 				menuPowers: {
-					doorman: ['/pages_sub/vehicle/vehicle'],
 					admin: ['/pages_sub/appointment/appointment',
 						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
 						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
 						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
 					],
-					service_audit_supervisor: ['/pages_sub/appointment/appointment',
-						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
-						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
-						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
-					],
-					storage_supervisor: ['/pages_sub/appointment/appointment',
-						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
-						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
-						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
-					],
+					stock_supervisor: ['/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
+						'/pages_sub/inventoryCheck/inventoryCheck'],
+					storage_supervisor: ['/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
+						'/pages_sub/inventoryCheck/inventoryCheck'],
 					service_supervisor: ['/pages_sub/appointment/appointment',
-						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
-						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
-						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
-					],
-					stock_supervisor: ['/pages_sub/appointment/appointment',
-						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage',
-						'/pages_sub/inventoryCheck/inventoryCheck', '/pages_sub/myGoods/myGoods',
-						'/pages_sub/vehicle/vehicle', '/pages_sub/kanban/kanban'
-					],
-					customer: ['/pages_sub/appointment/appointment', '/pages_sub/myGoods/myGoods']
+						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage'],
+					service_audit_supervisor: ['/pages_sub/appointment/appointment',
+						'/pages_sub/inStorage/inStorage', '/pages_sub/outStorage/outStorage'],
+					customer: ['/pages_sub/appointment/appointment', '/pages_sub/myGoods/myGoods'],
+					doorman: ['/pages_sub/vehicle/vehicle'],
 				}
 			}
 		},
